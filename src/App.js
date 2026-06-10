@@ -6,7 +6,7 @@ const FEED_CARDS = [
     id: 1,
     profilePic: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=60&q=80',
     name: 'Maya Chen',
-    store: 'Kokorokoko · Wicker Park',
+    store: 'Kokorokoko · Wicker Park · $$',
     items: [
       { img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&q=80', label: 'Denim Jacket', price: '$38' },
       { img: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=300&q=80', label: 'Corduroy Pants', price: '$24' },
@@ -17,7 +17,7 @@ const FEED_CARDS = [
     id: 2,
     profilePic: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
     name: 'Jaden Williams',
-    store: 'p.45 · Bucktown',
+    store: 'p.45 · Bucktown · $$$',
     items: [
       { img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=300&q=80', label: 'Linen Blazer', price: '$120' },
       { img: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=300&q=80', label: 'White Shirt', price: '$55' },
