@@ -1,6 +1,39 @@
 import { useState } from 'react';
 import './App.css';
 
+const FEED_CARDS = [
+  {
+    id: 1,
+    profilePic: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=60&q=80',
+    name: 'Maya Chen',
+    store: 'Kokorokoko · Wicker Park',
+    items: [
+      { img: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=200&q=80', tag: 'Vintage', price: '$38' },
+      { img: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&q=80', tag: 'Bottoms', price: '$24' },
+      { img: 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=200&q=80', tag: 'Tops', price: '$14' },
+    ],
+  },
+  {
+    id: 2,
+    profilePic: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80',
+    name: 'Jaden Williams',
+    store: 'p.45 · Bucktown',
+    items: [
+      { img: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4d3a?w=200&q=80', tag: 'Blazer', price: '$120' },
+      { img: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=200&q=80', tag: 'Tops', price: '$55' },
+      { img: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=200&q=80', tag: 'Bottoms', price: '$80' },
+    ],
+  },
+];
+
+function BookmarkIcon() {
+  return (
+    <svg width="11" height="14" viewBox="0 0 11 14" fill="none" aria-hidden="true">
+      <path d="M1.5 1.5h8v10.5l-4-2.8-4 2.8V1.5z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function PhoneMockup() {
   return (
     <div className="phone-frame">
@@ -14,30 +47,27 @@ function PhoneMockup() {
           <span className="phone-tab">Trending</span>
         </div>
         <div className="phone-cards">
-          <div className="phone-card">
-            <div className="phone-card-user">
-              <span className="phone-avatar" style={{ background: '#c8b89a' }} />
-              <span className="phone-username">@maya.finds</span>
+          {FEED_CARDS.map((card) => (
+            <div key={card.id} className="phone-card">
+              <div className="phone-card-header">
+                <img src={card.profilePic} alt={card.name} className="phone-profile-pic" />
+                <div className="phone-card-info">
+                  <span className="phone-person-name">{card.name}</span>
+                  <span className="phone-store-info">{card.store}</span>
+                </div>
+                <span className="phone-bookmark"><BookmarkIcon /></span>
+              </div>
+              <div className="phone-items-row">
+                {card.items.map((item, i) => (
+                  <div key={i} className="phone-item-tile">
+                    <img src={item.img} alt={item.tag} className="phone-item-img" />
+                    <span className="phone-item-tag">{item.tag}</span>
+                    <span className="phone-item-price">{item.price}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="phone-card-store">Archive Studio</div>
-            <div className="phone-card-image" style={{ background: '#d4c4b0' }} />
-            <div className="phone-card-meta">
-              <span className="phone-card-tag">Vintage</span>
-              <span className="phone-card-price">$48</span>
-            </div>
-          </div>
-          <div className="phone-card">
-            <div className="phone-card-user">
-              <span className="phone-avatar" style={{ background: '#b8a898' }} />
-              <span className="phone-username">@jaden.style</span>
-            </div>
-            <div className="phone-card-store">Mada Mada</div>
-            <div className="phone-card-image" style={{ background: '#b8a898' }} />
-            <div className="phone-card-meta">
-              <span className="phone-card-tag">Streetwear</span>
-              <span className="phone-card-price">$120</span>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
@@ -102,17 +132,17 @@ export default function App() {
             <div className="feature">
               <span className="feature-num">01</span>
               <h3 className="feature-title">Stores near you ranked by real people</h3>
-              <p className="feature-desc">Skip the algorithm. See which local shops your city actually loves, sorted by community scores and fresh drops.</p>
+              <p className="feature-desc">Real ratings on specific pieces, not just the store. Know exactly what's worth the trip before you go.</p>
             </div>
             <div className="feature">
               <span className="feature-num">02</span>
               <h3 className="feature-title">Follow people with taste</h3>
-              <p className="feature-desc">Build a feed of people whose style you trust. See what they're buying, saving, and rating across the city.</p>
+              <p className="feature-desc">Follow friends, local stylists, anyone whose eye you trust. See what they're finding across the city.</p>
             </div>
             <div className="feature">
               <span className="feature-num">03</span>
               <h3 className="feature-title">Snap it, find it nearby</h3>
-              <p className="feature-desc">See something you like out in the wild? Snap a photo and Rack finds the same piece at a store near you.</p>
+              <p className="feature-desc">Spot something you love? Snap a photo and find it at a store near you, or something even better.</p>
             </div>
           </div>
         </div>
@@ -123,7 +153,7 @@ export default function App() {
       </section>
 
       <section className="quote-section">
-        <p className="quote-text">If you don't know where to go, just rack it.</p>
+        <p className="quote-text">See it. Rack it. Wear it.</p>
       </section>
 
       <footer className="footer">
