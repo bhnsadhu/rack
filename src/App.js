@@ -89,10 +89,29 @@ function PhoneMockup() {
 export default function App() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (email.trim()) setSubmitted(true);
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('https://formspree.io/f/mnjyzzgv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        setError('Something went wrong. Try again.');
+      }
+    } catch {
+      setError('Something went wrong. Try again.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -115,7 +134,7 @@ export default function App() {
           </p>
           <div className="waitlist-wrap">
             {submitted ? (
-              <p className="waitlist-success">You're on the list. We'll be in touch.</p>
+              <p className="waitlist-success">You're on the list.</p>
             ) : (
               <form className="waitlist-pill" onSubmit={handleSubmit}>
                 <input
@@ -125,12 +144,14 @@ export default function App() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  disabled={loading}
                 />
-                <button className="waitlist-btn" type="submit">
-                  Join the waitlist
+                <button className="waitlist-btn" type="submit" disabled={loading}>
+                  {loading ? 'Joining…' : 'Join the waitlist'}
                 </button>
               </form>
             )}
+            {error && <p className="waitlist-error">{error}</p>}
             <p className="social-proof">Joining 500+ people on the waitlist</p>
             <p className="waitlist-hint">Be among the first to know.</p>
           </div>

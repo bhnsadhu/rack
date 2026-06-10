@@ -150,6 +150,12 @@
   opacity: 0.7;
 }
 
+.waitlist-error {
+  font-size: 13px;
+  color: #a09888;
+  margin: 0;
+}
+
 .waitlist-success {
   font-size: 16px;
   font-weight: 500;
