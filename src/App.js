@@ -89,6 +89,7 @@ export default function App() {
                 </button>
               </form>
             )}
+            <p className="social-proof">Joining 500+ people on the waitlist</p>
             <p className="waitlist-hint">Be among the first to know.</p>
           </div>
         </div>
@@ -122,7 +123,7 @@ export default function App() {
       </section>
 
       <section className="quote-section">
-        <p className="quote-text">"If you don't know where to go, just rack it."</p>
+        <p className="quote-text">If you don't know where to go, just rack it.</p>
       </section>
 
       <footer className="footer">
