@@ -8,9 +8,9 @@ const FEED_CARDS = [
     name: 'Maya Chen',
     store: 'Kokorokoko · Wicker Park',
     items: [
-      { img: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=200&q=80', tag: 'Vintage', price: '$38' },
-      { img: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&q=80', tag: 'Bottoms', price: '$24' },
-      { img: 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=200&q=80', tag: 'Tops', price: '$14' },
+      { img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=300&q=80', label: 'Denim Jacket', price: '$38' },
+      { img: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=300&q=80', label: 'Corduroy Pants', price: '$24' },
+      { img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300&q=80', label: 'Graphic Tee', price: '$14' },
     ],
   },
   {
@@ -19,9 +19,9 @@ const FEED_CARDS = [
     name: 'Jaden Williams',
     store: 'p.45 · Bucktown',
     items: [
-      { img: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4d3a?w=200&q=80', tag: 'Blazer', price: '$120' },
-      { img: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=200&q=80', tag: 'Tops', price: '$55' },
-      { img: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=200&q=80', tag: 'Bottoms', price: '$80' },
+      { img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=300&q=80', label: 'Linen Blazer', price: '$120' },
+      { img: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=300&q=80', label: 'White Shirt', price: '$55' },
+      { img: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=300&q=80', label: 'Trousers', price: '$80' },
     ],
   },
 ];
@@ -50,7 +50,12 @@ function PhoneMockup() {
           {FEED_CARDS.map((card) => (
             <div key={card.id} className="phone-card">
               <div className="phone-card-header">
-                <img src={card.profilePic} alt={card.name} className="phone-profile-pic" />
+                <img
+                  src={card.profilePic}
+                  alt={card.name}
+                  className="phone-profile-pic"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
                 <div className="phone-card-info">
                   <span className="phone-person-name">{card.name}</span>
                   <span className="phone-store-info">{card.store}</span>
@@ -60,8 +65,15 @@ function PhoneMockup() {
               <div className="phone-items-row">
                 {card.items.map((item, i) => (
                   <div key={i} className="phone-item-tile">
-                    <img src={item.img} alt={item.tag} className="phone-item-img" />
-                    <span className="phone-item-tag">{item.tag}</span>
+                    <div className="phone-item-img-wrap">
+                      <img
+                        src={item.img}
+                        alt={item.label}
+                        className="phone-item-img"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    </div>
+                    <span className="phone-item-tag">{item.label}</span>
                     <span className="phone-item-price">{item.price}</span>
                   </div>
                 ))}
