@@ -7,6 +7,7 @@ import { AuthProvider } from './AuthContext';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Feed from './pages/Feed';
+import Post from './pages/Post';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -19,6 +20,7 @@ root.render(
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/feed" element={<Feed />} />
+          <Route path="/post" element={<Post />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

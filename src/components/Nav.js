@@ -17,6 +17,7 @@ export default function Nav() {
       <div className="app-nav-actions">
         {user ? (
           <>
+            <Link to="/post" className="app-nav-btn app-nav-btn--fill">Rack it</Link>
             <span className="app-nav-username">{profile?.username ?? user.email}</span>
             <button className="app-nav-btn app-nav-btn--outline" onClick={handleSignOut}>
               Log out
