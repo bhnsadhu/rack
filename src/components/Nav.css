@@ -1,0 +1,75 @@
+.app-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+  border-bottom: 1px solid #d8d0c6;
+  background: #f5f0eb;
+}
+
+.app-nav-brand {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.app-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-nav-username {
+  font-size: 14px;
+  color: #7a7068;
+}
+
+.app-nav-btn {
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  padding: 8px 18px;
+  border-radius: 40px;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.15s;
+}
+
+.app-nav-btn--ghost {
+  background: transparent;
+  color: #1a1a1a;
+}
+
+.app-nav-btn--ghost:hover {
+  background: rgba(26, 26, 26, 0.06);
+}
+
+.app-nav-btn--fill {
+  background: #1a1a1a;
+  color: #f5f0eb;
+}
+
+.app-nav-btn--fill:hover {
+  background: #2e2e2e;
+}
+
+.app-nav-btn--outline {
+  background: transparent;
+  color: #1a1a1a;
+  border: 1.5px solid rgba(26, 26, 26, 0.2);
+}
+
+.app-nav-btn--outline:hover {
+  background: rgba(26, 26, 26, 0.06);
+}
+
+@media (max-width: 768px) {
+  .app-nav {
+    padding: 16px 24px;
+  }
+}
