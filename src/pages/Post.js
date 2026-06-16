@@ -6,6 +6,41 @@ import Nav from '../components/Nav';
 import './auth.css';
 import './post.css';
 
+function StarInput({ rating, onChange, disabled }) {
+  const [hoverRating, setHoverRating] = useState(null);
+  const displayRating = hoverRating ?? rating;
+
+  return (
+    <div className="post-stars" onMouseLeave={() => setHoverRating(null)}>
+      {[1, 2, 3, 4, 5].map((n) => {
+        const fraction = Math.max(0, Math.min(1, displayRating - (n - 1)));
+        return (
+          <span key={n} className="post-star-wrap">
+            <span className="post-star post-star--base">★</span>
+            <span className="post-star post-star--fill" style={{ width: `${fraction * 100}%` }}>★</span>
+            <button
+              type="button"
+              className="post-star-half post-star-half--left"
+              onMouseEnter={() => setHoverRating(n - 0.5)}
+              onClick={() => onChange(n - 0.5)}
+              disabled={disabled}
+              aria-label={`${n - 0.5} stars`}
+            />
+            <button
+              type="button"
+              className="post-star-half post-star-half--right"
+              onMouseEnter={() => setHoverRating(n)}
+              onClick={() => onChange(n)}
+              disabled={disabled}
+              aria-label={`${n} stars`}
+            />
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function Post() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -253,20 +288,7 @@ export default function Post() {
             {/* Star rating */}
             <div className="auth-label">
               <span>Rating</span>
-              <div className="post-stars">
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <button
-                    key={n}
-                    type="button"
-                    className={`post-star${rating >= n ? ' post-star--on' : ''}`}
-                    onClick={() => setRating(n)}
-                    disabled={submitting}
-                    aria-label={`${n} star${n > 1 ? 's' : ''}`}
-                  >
-                    ★
-                  </button>
-                ))}
-              </div>
+              <StarInput rating={rating} onChange={setRating} disabled={submitting} />
             </div>
 
             {/* Note */}

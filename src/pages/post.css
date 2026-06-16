@@ -138,30 +138,56 @@
 /* Star rating */
 .post-stars {
   display: flex;
-  gap: 4px;
+  gap: 6px;
+}
+
+.post-star-wrap {
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  line-height: 1;
 }
 
 .post-star {
+  position: absolute;
+  top: 0;
+  left: 0;
   font-size: 28px;
+  pointer-events: none;
+}
+
+.post-star--base {
   color: #d8d0c6;
+}
+
+.post-star--fill {
+  overflow: hidden;
+  white-space: nowrap;
+  color: #c8b89a;
+}
+
+.post-star-half {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 50%;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
-  line-height: 1;
-  transition: color 0.1s, transform 0.1s;
+  z-index: 2;
 }
 
-.post-star:hover,
-.post-star--on {
-  color: #c8b89a;
+.post-star-half--left {
+  left: 0;
 }
 
-.post-star:hover {
-  transform: scale(1.15);
+.post-star-half--right {
+  left: 50%;
 }
 
-.post-star:disabled {
+.post-star-half:disabled {
   cursor: not-allowed;
 }
 

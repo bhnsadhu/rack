@@ -61,7 +61,7 @@
 
 .feed-card-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   padding: 14px 16px;
 }
@@ -85,7 +85,14 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  padding-top: 2px;
+}
+
+.feed-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .feed-username {
@@ -97,6 +104,37 @@
   text-overflow: ellipsis;
 }
 
+.feed-follow-btn {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: #1a1a1a;
+  color: #f5f0eb;
+  transition: background 0.15s;
+}
+
+.feed-follow-btn:hover {
+  background: #2e2e2e;
+}
+
+.feed-follow-badge {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: #a09888;
+}
+
+.feed-store-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .feed-store {
   font-size: 12px;
   color: #a09888;
@@ -105,10 +143,39 @@
   text-overflow: ellipsis;
 }
 
-.feed-time {
+.feed-save-store-btn {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #c8b89a;
+}
+
+.feed-header-right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 3px;
+}
+
+.feed-time {
   font-size: 12px;
   color: #bab0a8;
+  white-space: nowrap;
+}
+
+.feed-bookmark-btn {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #c8b89a;
 }
 
 .feed-photo {
@@ -152,13 +219,27 @@
   gap: 2px;
 }
 
-.feed-star {
+.feed-star-wrap {
+  position: relative;
+  display: inline-block;
   font-size: 15px;
-  color: #d8d0c6;
   line-height: 1;
 }
 
-.feed-star--on {
+.feed-star {
+  display: block;
+}
+
+.feed-star--base {
+  color: #d8d0c6;
+}
+
+.feed-star--fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
   color: #c8b89a;
 }
 

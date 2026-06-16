@@ -5,6 +5,7 @@ import Nav from '../components/Nav';
 import './auth.css';
 
 export default function Signup() {
+  const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +30,7 @@ export default function Signup() {
     if (userId) {
       const { error: profileError } = await supabase
         .from('profiles')
-        .insert({ id: userId, username });
+        .insert({ id: userId, username, full_name: fullName });
 
       if (profileError) {
         setError(profileError.message);
@@ -49,6 +50,19 @@ export default function Signup() {
           <h1 className="auth-title">Create your account</h1>
           <p className="auth-sub">Join the Rack community.</p>
           <form className="auth-form" onSubmit={handleSubmit}>
+            <label className="auth-label">
+              Full name
+              <input
+                className="auth-input"
+                type="text"
+                placeholder="Jane Doe"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                disabled={loading}
+                autoComplete="name"
+              />
+            </label>
             <label className="auth-label">
               Username
               <input
