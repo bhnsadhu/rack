@@ -77,7 +77,10 @@ export default function Post() {
         const { error: uploadError } = await supabase.storage
           .from('item-photos')
           .upload(path, photoFile);
-        if (uploadError) throw uploadError;
+        if (uploadError) {
+          console.log('[Post] storage upload error:', uploadError);
+          throw uploadError;
+        }
         const { data: urlData } = supabase.storage
           .from('item-photos')
           .getPublicUrl(path);
@@ -85,12 +88,17 @@ export default function Post() {
       }
 
       // Find or create the item for this store
-      const { data: existingItem } = await supabase
+      const { data: existingItem, error: lookupError } = await supabase
         .from('items')
         .select('id')
         .eq('store_id', storeId)
         .eq('name', itemName.trim())
         .maybeSingle();
+
+      if (lookupError) {
+        console.log('[Post] items lookup error:', lookupError);
+        throw lookupError;
+      }
 
       let itemId;
       if (existingItem) {
@@ -101,7 +109,10 @@ export default function Post() {
           .insert({ store_id: storeId, name: itemName.trim(), photo_url: photoUrl, price: parseFloat(price) })
           .select('id')
           .single();
-        if (itemError) throw itemError;
+        if (itemError) {
+          console.log('[Post] items insert error:', itemError);
+          throw itemError;
+        }
         itemId = newItem.id;
       }
 
@@ -109,11 +120,17 @@ export default function Post() {
       const { error: rackError } = await supabase
         .from('racks')
         .insert({ user_id: user.id, item_id: itemId, note: note.trim() || null, rating });
-      if (rackError) throw rackError;
+      if (rackError) {
+        console.log('[Post] racks insert error:', rackError);
+        throw rackError;
+      }
 
       navigate('/feed');
     } catch (err) {
-      setError(err.message || 'Something went wrong. Try again.');
+      const fullMessage = [err.message, err.details, err.hint, err.code ? `(code: ${err.code})` : '']
+        .filter(Boolean)
+        .join(' — ');
+      setError(fullMessage || 'Something went wrong. Try again.');
       setSubmitting(false);
     }
   }
