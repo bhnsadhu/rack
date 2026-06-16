@@ -61,8 +61,8 @@ function BookmarkIcon({ filled }) {
 function PinIcon({ filled }) {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill={filled ? 'currentColor' : 'none'} aria-hidden="true">
-      <circle cx="8" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.3" />
-      <path d="M8 11V14.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <circle cx="8" cy="5" r="3.2" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M8 8.2V14.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
