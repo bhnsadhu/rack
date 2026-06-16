@@ -22,6 +22,16 @@ function formatRelativeTime(dateString) {
   return `${years} year${years === 1 ? '' : 's'} ago`;
 }
 
+const STAR_PATH = 'M12 2.5l3.09 6.26L22 9.77l-5 4.87L18.18 21.5 12 17.77 5.82 21.5 7 14.64l-5-4.87 6.91-1.01L12 2.5z';
+
+function StarIcon({ filled }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} aria-hidden="true">
+      <path d={STAR_PATH} stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function StarDisplay({ rating }) {
   return (
     <div className="feed-stars" aria-label={`${rating} out of 5 stars`}>
@@ -29,8 +39,10 @@ function StarDisplay({ rating }) {
         const fraction = Math.max(0, Math.min(1, rating - (n - 1)));
         return (
           <span key={n} className="feed-star-wrap">
-            <span className="feed-star feed-star--base">★</span>
-            <span className="feed-star feed-star--fill" style={{ width: `${fraction * 100}%` }}>★</span>
+            <StarIcon filled={false} />
+            <span className="feed-star-fill-clip" style={{ width: `${fraction * 100}%` }}>
+              <StarIcon filled />
+            </span>
           </span>
         );
       })}
@@ -55,6 +67,44 @@ function PinIcon({ filled }) {
   );
 }
 
+function HeartIcon({ filled }) {
+  return (
+    <svg width="18" height="16" viewBox="0 0 18 16" fill={filled ? '#e0473e' : 'none'} aria-hidden="true">
+      <path
+        d="M9 14.2s-6.2-3.8-7.6-7.7C0.6 3.8 2.4 1.4 5.1 1.4c1.6 0 2.9 0.9 3.9 2.3 1-1.4 2.3-2.3 3.9-2.3 2.7 0 4.5 2.4 3.7 5.1-1.4 3.9-7.6 7.7-7.6 7.7z"
+        stroke={filled ? '#e0473e' : 'currentColor'}
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CommentIcon() {
+  return (
+    <svg width="18" height="17" viewBox="0 0 18 17" fill="none" aria-hidden="true">
+      <path
+        d="M1.5 8.2c0-3.7 3.4-6.5 7.5-6.5s7.5 2.8 7.5 6.5-3.4 6.5-7.5 6.5c-0.9 0-1.8-0.1-2.6-0.4L2.5 16l0.9-3.2c-1.2-1.2-1.9-2.8-1.9-4.6z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function ShareIcon() {
+  return (
+    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" aria-hidden="true">
+      <circle cx="13" cy="3" r="2" stroke="currentColor" strokeWidth="1.3" />
+      <circle cx="3" cy="8.5" r="2" stroke="currentColor" strokeWidth="1.3" />
+      <circle cx="13" cy="14" r="2" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M4.7 7.5L11.3 4M4.7 9.5l6.6 3.5" stroke="currentColor" strokeWidth="1.3" />
+    </svg>
+  );
+}
+
 export default function Feed() {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -63,6 +113,11 @@ export default function Feed() {
   const [followingIds, setFollowingIds] = useState(new Set());
   const [savedPostIds, setSavedPostIds] = useState(new Set());
   const [savedStoreIds, setSavedStoreIds] = useState(new Set());
+  const [likedIds, setLikedIds] = useState(new Set());
+  const [likeCounts, setLikeCounts] = useState({});
+  const [openCommentId, setOpenCommentId] = useState(null);
+  const [commentDrafts, setCommentDrafts] = useState({});
+  const [copiedId, setCopiedId] = useState(null);
 
   useEffect(() => {
     if (!authLoading && !user) navigate('/login');
@@ -104,6 +159,26 @@ export default function Feed() {
       setSavedStoreIds(new Set((savedStoresRes.data || []).map((s) => s.store_id)));
     });
   }, [user]);
+
+  useEffect(() => {
+    if (!user || posts.length === 0) return;
+    const rackIds = posts.map((p) => p.id);
+    supabase
+      .from('likes')
+      .select('rack_id, user_id')
+      .in('rack_id', rackIds)
+      .then(({ data, error }) => {
+        if (error) { console.log('[Feed] likes fetch error:', error); return; }
+        const counts = {};
+        const liked = new Set();
+        (data || []).forEach((l) => {
+          counts[l.rack_id] = (counts[l.rack_id] || 0) + 1;
+          if (l.user_id === user.id) liked.add(l.rack_id);
+        });
+        setLikeCounts(counts);
+        setLikedIds(liked);
+      });
+  }, [user, posts]);
 
   async function toggleFollow(targetUserId) {
     if (followingIds.has(targetUserId)) {
@@ -159,6 +234,51 @@ export default function Feed() {
     }
   }
 
+  async function toggleLike(rackId) {
+    if (likedIds.has(rackId)) {
+      const { error } = await supabase
+        .from('likes')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('rack_id', rackId);
+      if (error) { console.log('[Feed] unlike error:', error); return; }
+      setLikedIds((prev) => { const next = new Set(prev); next.delete(rackId); return next; });
+      setLikeCounts((prev) => ({ ...prev, [rackId]: Math.max(0, (prev[rackId] || 1) - 1) }));
+    } else {
+      const { error } = await supabase
+        .from('likes')
+        .insert({ user_id: user.id, rack_id: rackId });
+      if (error) { console.log('[Feed] like error:', error); return; }
+      setLikedIds((prev) => new Set(prev).add(rackId));
+      setLikeCounts((prev) => ({ ...prev, [rackId]: (prev[rackId] || 0) + 1 }));
+    }
+  }
+
+  function toggleCommentBox(rackId) {
+    setOpenCommentId((prev) => (prev === rackId ? null : rackId));
+  }
+
+  async function submitComment(rackId) {
+    const content = (commentDrafts[rackId] || '').trim();
+    if (!content) return;
+    const { error } = await supabase
+      .from('comments')
+      .insert({ user_id: user.id, rack_id: rackId, content });
+    if (error) { console.log('[Feed] comment insert error:', error); return; }
+    setCommentDrafts((prev) => ({ ...prev, [rackId]: '' }));
+  }
+
+  async function handleShare(rackId) {
+    const url = `${window.location.origin}/feed?post=${rackId}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedId(rackId);
+      setTimeout(() => setCopiedId((prev) => (prev === rackId ? null : prev)), 1500);
+    } catch (err) {
+      console.log('[Feed] clipboard error:', err);
+    }
+  }
+
   if (authLoading || !user) return null;
 
   return (
@@ -186,6 +306,9 @@ export default function Feed() {
                 const isFollowing = followingIds.has(post.user_id);
                 const isBookmarked = savedPostIds.has(post.id);
                 const isStoreSaved = store?.id ? savedStoreIds.has(store.id) : false;
+                const isLiked = likedIds.has(post.id);
+                const likeCount = likeCounts[post.id] || 0;
+                const isCommentOpen = openCommentId === post.id;
 
                 return (
                   <article key={post.id} className="feed-card">
@@ -249,6 +372,49 @@ export default function Feed() {
                       <StarDisplay rating={post.rating} />
                       {post.note && <p className="feed-note">{post.note}</p>}
                     </div>
+
+                    <div className="feed-actions">
+                      <button type="button" className="feed-action-btn" onClick={() => toggleLike(post.id)}>
+                        <HeartIcon filled={isLiked} />
+                        <span>{likeCount}</span>
+                      </button>
+                      <button type="button" className="feed-action-btn" onClick={() => toggleCommentBox(post.id)}>
+                        <CommentIcon />
+                        <span>Comment</span>
+                      </button>
+                      <button type="button" className="feed-action-btn" onClick={() => handleShare(post.id)}>
+                        <ShareIcon />
+                        <span>{copiedId === post.id ? 'Copied!' : 'Share'}</span>
+                      </button>
+                    </div>
+
+                    {isCommentOpen && (
+                      <div className="feed-comment-box">
+                        <input
+                          className="feed-comment-input"
+                          type="text"
+                          placeholder="Add a comment..."
+                          value={commentDrafts[post.id] || ''}
+                          onChange={(e) =>
+                            setCommentDrafts((prev) => ({ ...prev, [post.id]: e.target.value }))
+                          }
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              e.preventDefault();
+                              submitComment(post.id);
+                            }
+                          }}
+                        />
+                        <button
+                          type="button"
+                          className="feed-comment-submit"
+                          onClick={() => submitComment(post.id)}
+                          disabled={!(commentDrafts[post.id] || '').trim()}
+                        >
+                          Post
+                        </button>
+                      </div>
+                    )}
                   </article>
                 );
               })}

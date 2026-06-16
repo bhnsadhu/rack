@@ -216,30 +216,25 @@
 
 .feed-stars {
   display: flex;
-  gap: 2px;
+  gap: 3px;
 }
 
 .feed-star-wrap {
   position: relative;
-  display: inline-block;
-  font-size: 15px;
-  line-height: 1;
-}
-
-.feed-star {
-  display: block;
-}
-
-.feed-star--base {
+  display: inline-flex;
   color: #d8d0c6;
 }
 
-.feed-star--fill {
+.feed-star-wrap svg {
+  display: block;
+}
+
+.feed-star-fill-clip {
   position: absolute;
   top: 0;
   left: 0;
+  height: 100%;
   overflow: hidden;
-  white-space: nowrap;
   color: #c8b89a;
 }
 
@@ -249,6 +244,85 @@
   color: #7a7068;
   margin: 4px 0 0;
   line-height: 1.5;
+}
+
+/* Actions row */
+.feed-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 10px 16px 14px;
+  border-top: 1px solid rgba(26, 26, 26, 0.07);
+}
+
+.feed-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #7a7068;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+
+.feed-action-btn:hover {
+  color: #1a1a1a;
+}
+
+.feed-comment-box {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+}
+
+.feed-comment-input {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1a1a1a;
+  background: #fff;
+  border: 1.5px solid rgba(26, 26, 26, 0.13);
+  border-radius: 20px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.feed-comment-input::placeholder {
+  color: #bab0a8;
+}
+
+.feed-comment-input:focus {
+  border-color: rgba(26, 26, 26, 0.3);
+}
+
+.feed-comment-submit {
+  flex-shrink: 0;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  background: #1a1a1a;
+  color: #f5f0eb;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.feed-comment-submit:hover:not(:disabled) {
+  background: #2e2e2e;
+}
+
+.feed-comment-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 @media (max-width: 600px) {
