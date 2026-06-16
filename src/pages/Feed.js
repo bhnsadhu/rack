@@ -52,17 +52,17 @@ function StarDisplay({ rating }) {
 
 function BookmarkIcon({ filled }) {
   return (
-    <svg width="15" height="19" viewBox="0 0 15 19" fill={filled ? 'currentColor' : 'none'} aria-hidden="true">
-      <path d="M1.5 1.5h12v15.5l-6-4.2-6 4.2V1.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="16" height="16" viewBox="0 0 16 16" fill={filled ? 'currentColor' : 'none'} aria-hidden="true">
+      <path d="M3 1.5h10v13l-5-3.5-5 3.5v-13z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
 function PinIcon({ filled }) {
   return (
-    <svg width="13" height="13" viewBox="0 0 13 13" fill={filled ? 'currentColor' : 'none'} aria-hidden="true">
-      <circle cx="6.5" cy="5.3" r="3.8" stroke="currentColor" strokeWidth="1.2" />
-      <path d="M6.5 9.1V12" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <svg width="16" height="16" viewBox="0 0 16 16" fill={filled ? 'currentColor' : 'none'} aria-hidden="true">
+      <circle cx="8" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M8 11V14.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   );
 }
@@ -331,27 +331,23 @@ export default function Feed() {
                             )
                           )}
                         </div>
-                        {storeLine && (
-                          <div className="feed-store-row">
-                            <span className="feed-store">{storeLine}</span>
-                            {store?.id && (
-                              <button
-                                type="button"
-                                className="feed-save-store-btn"
-                                onClick={() => toggleSaveStore(store.id)}
-                                aria-label={isStoreSaved ? 'Unsave store' : 'Save store'}
-                              >
-                                <PinIcon filled={isStoreSaved} />
-                              </button>
-                            )}
-                          </div>
-                        )}
+                        {storeLine && <span className="feed-store">{storeLine}</span>}
                       </div>
                       <div className="feed-header-right">
                         <span className="feed-time">{formatRelativeTime(post.created_at)}</span>
+                        {store?.id && (
+                          <button
+                            type="button"
+                            className="feed-icon-btn"
+                            onClick={() => toggleSaveStore(store.id)}
+                            aria-label={isStoreSaved ? 'Unsave store' : 'Save store'}
+                          >
+                            <PinIcon filled={isStoreSaved} />
+                          </button>
+                        )}
                         <button
                           type="button"
-                          className="feed-bookmark-btn"
+                          className="feed-icon-btn"
                           onClick={() => toggleBookmark(post.id)}
                           aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark'}
                         >
