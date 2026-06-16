@@ -24,6 +24,11 @@
 .app-nav-username {
   font-size: 14px;
   color: #7a7068;
+  text-decoration: none;
+}
+
+.app-nav-username:hover {
+  color: #1a1a1a;
 }
 
 .app-nav-btn {

@@ -298,7 +298,8 @@ export default function Feed() {
               {posts.map((post) => {
                 const item = post.items;
                 const store = item?.stores;
-                const fullName = post.profiles?.full_name || post.profiles?.username || 'Someone';
+                const username = post.profiles?.username;
+                const fullName = post.profiles?.full_name || username || 'Someone';
                 const storeLine = [store?.name, store?.neighborhood, store?.price_range]
                   .filter(Boolean)
                   .join(' · ');
@@ -313,10 +314,20 @@ export default function Feed() {
                 return (
                   <article key={post.id} className="feed-card">
                     <div className="feed-card-header">
-                      <span className="feed-avatar">{fullName.charAt(0).toUpperCase()}</span>
+                      {username ? (
+                        <Link to={`/profile/${username}`} className="feed-avatar">
+                          {fullName.charAt(0).toUpperCase()}
+                        </Link>
+                      ) : (
+                        <span className="feed-avatar">{fullName.charAt(0).toUpperCase()}</span>
+                      )}
                       <div className="feed-card-meta">
                         <div className="feed-name-row">
-                          <span className="feed-username">{fullName}</span>
+                          {username ? (
+                            <Link to={`/profile/${username}`} className="feed-username">{fullName}</Link>
+                          ) : (
+                            <span className="feed-username">{fullName}</span>
+                          )}
                           {!isOwnPost && (
                             isFollowing ? (
                               <span className="feed-follow-badge">Following</span>
