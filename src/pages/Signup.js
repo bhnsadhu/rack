@@ -29,7 +29,7 @@ export default function Signup() {
     if (userId) {
       const { error: profileError } = await supabase
         .from('profiles')
-        .insert({ id: userId, username, email });
+        .insert({ id: userId, username });
 
       if (profileError) {
         setError(profileError.message);
