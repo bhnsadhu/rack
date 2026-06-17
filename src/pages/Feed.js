@@ -404,7 +404,9 @@ export default function Feed() {
                     </div>
 
                     {item?.photo_url && (
-                      <img src={item.photo_url} alt={item.name} className="feed-photo" />
+                      <Link to={`/post/${post.id}`} className="feed-photo-link">
+                        <img src={item.photo_url} alt={item.name} className="feed-photo" />
+                      </Link>
                     )}
 
                     <div className="feed-card-body">

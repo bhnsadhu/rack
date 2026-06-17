@@ -1,103 +1,57 @@
-.feed-page {
+.pd-page {
   min-height: calc(100vh - 65px);
   background: #f5f0eb;
   padding: 40px 24px 80px;
 }
 
-.feed-container {
+.pd-container {
   max-width: 520px;
   margin: 0 auto;
 }
 
-.feed-status {
+.pd-status {
   text-align: center;
   font-size: 15px;
   color: #a09888;
   margin-top: 64px;
 }
 
-.feed-empty {
-  text-align: center;
-  margin-top: 64px;
-  display: flex;
-  flex-direction: column;
+.pd-back {
+  display: inline-flex;
   align-items: center;
-  gap: 16px;
-}
-
-.feed-empty p {
-  font-size: 15px;
-  color: #7a7068;
-  margin: 0;
-}
-
-.feed-empty-link {
-  font-size: 14px;
-  font-weight: 600;
-  color: #f5f0eb;
-  background: #1a1a1a;
-  padding: 11px 22px;
-  border-radius: 40px;
-  text-decoration: none;
-  transition: background 0.15s;
-}
-
-.feed-empty-link:hover {
-  background: #2e2e2e;
-}
-
-.feed-tabs {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid #d8d0c6;
-}
-
-.feed-tab {
+  gap: 6px;
   font-size: 14px;
   font-weight: 500;
   font-family: inherit;
-  color: #a09888;
+  color: #7a7068;
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
-  padding: 0 0 12px;
-  margin-bottom: -1px;
+  padding: 0;
   cursor: pointer;
-  outline: none;
-  transition: color 0.15s, border-color 0.15s;
+  margin-bottom: 20px;
+  transition: color 0.15s;
 }
 
-.feed-tab:focus {
-  outline: none;
-}
-
-.feed-tab--active {
+.pd-back:hover {
   color: #1a1a1a;
-  border-bottom-color: #1a1a1a;
 }
 
-.feed-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.feed-card {
+/* Card */
+.pd-card {
   background: #fffdfb;
   border: 1px solid rgba(26, 26, 26, 0.08);
   border-radius: 16px;
   overflow: hidden;
 }
 
-.feed-card-header {
+.pd-card-header {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   padding: 14px 16px;
 }
 
-.feed-avatar {
+.pd-avatar {
   flex-shrink: 0;
   width: 34px;
   height: 34px;
@@ -112,7 +66,7 @@
   text-decoration: none;
 }
 
-.feed-card-meta {
+.pd-card-meta {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -121,13 +75,13 @@
   padding-top: 2px;
 }
 
-.feed-name-row {
+.pd-name-row {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.feed-username {
+.pd-username {
   font-size: 14px;
   font-weight: 600;
   color: #1a1a1a;
@@ -137,36 +91,11 @@
   text-decoration: none;
 }
 
-.feed-username:hover {
+.pd-username:hover {
   text-decoration: underline;
 }
 
-.feed-follow-btn {
-  flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 600;
-  font-family: inherit;
-  padding: 3px 10px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-  background: #1a1a1a;
-  color: #f5f0eb;
-  transition: background 0.15s;
-}
-
-.feed-follow-btn:hover {
-  background: #2e2e2e;
-}
-
-.feed-follow-badge {
-  flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 500;
-  color: #a09888;
-}
-
-.feed-store {
+.pd-store {
   font-size: 12px;
   color: #a09888;
   white-space: nowrap;
@@ -175,11 +104,11 @@
   text-decoration: none;
 }
 
-.feed-store:hover {
+.pd-store:hover {
   text-decoration: underline;
 }
 
-.feed-header-right {
+.pd-header-right {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -187,20 +116,18 @@
   padding-top: 3px;
 }
 
-.feed-time {
+.pd-time {
   font-size: 12px;
   color: #bab0a8;
   white-space: nowrap;
 }
 
-.feed-icon-btn {
+.pd-icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 16px;
   height: 16px;
-  font-size: 16px;
-  line-height: 1;
   background: none;
   border: none;
   padding: 0;
@@ -208,11 +135,7 @@
   color: #c8b89a;
 }
 
-.feed-photo-link {
-  display: block;
-}
-
-.feed-photo {
+.pd-photo {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 5;
@@ -220,50 +143,50 @@
   background: #e8e0d4;
 }
 
-.feed-card-body {
+.pd-card-body {
   padding: 14px 16px 18px;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.feed-item-row {
+.pd-item-row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
 }
 
-.feed-item-name {
+.pd-item-name {
   font-size: 15px;
   font-weight: 500;
   color: #1a1a1a;
   letter-spacing: -0.1px;
 }
 
-.feed-item-price {
+.pd-item-price {
   font-size: 15px;
   font-weight: 600;
   color: #1a1a1a;
   flex-shrink: 0;
 }
 
-.feed-stars {
+.pd-stars {
   display: flex;
   gap: 3px;
 }
 
-.feed-star-wrap {
+.pd-star-wrap {
   position: relative;
   display: inline-flex;
   color: #d8d0c6;
 }
 
-.feed-star-wrap svg {
+.pd-star-wrap svg {
   display: block;
 }
 
-.feed-star-fill-clip {
+.pd-star-fill-clip {
   position: absolute;
   top: 0;
   left: 0;
@@ -272,7 +195,7 @@
   color: #c8b89a;
 }
 
-.feed-note {
+.pd-note {
   font-size: 14px;
   font-style: italic;
   color: #7a7068;
@@ -280,8 +203,7 @@
   line-height: 1.5;
 }
 
-/* Actions row */
-.feed-actions {
+.pd-actions {
   display: flex;
   align-items: center;
   gap: 24px;
@@ -289,7 +211,7 @@
   border-top: 1px solid rgba(26, 26, 26, 0.07);
 }
 
-.feed-action-btn {
+.pd-action-btn {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -304,17 +226,89 @@
   transition: color 0.15s;
 }
 
-.feed-action-btn:hover {
+.pd-action-btn:hover {
   color: #1a1a1a;
 }
 
-.feed-comment-box {
-  display: flex;
-  gap: 8px;
-  padding: 0 16px 16px;
+/* Comments section */
+.pd-comments {
+  margin-top: 24px;
 }
 
-.feed-comment-input {
+.pd-comments-list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.pd-comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+}
+
+.pd-comment:first-child {
+  border-top: 1px solid rgba(26, 26, 26, 0.06);
+}
+
+.pd-comment-avatar {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #c8b89a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pd-comment-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.pd-comment-top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.pd-comment-username {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.pd-comment-username:hover {
+  text-decoration: underline;
+}
+
+.pd-comment-time {
+  font-size: 11px;
+  color: #bab0a8;
+}
+
+.pd-comment-text {
+  font-size: 14px;
+  color: #3a3a3a;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.pd-comment-box {
+  display: flex;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.pd-comment-input {
   flex: 1;
   min-width: 0;
   padding: 9px 14px;
@@ -328,15 +322,15 @@
   transition: border-color 0.15s;
 }
 
-.feed-comment-input::placeholder {
+.pd-comment-input::placeholder {
   color: #bab0a8;
 }
 
-.feed-comment-input:focus {
+.pd-comment-input:focus {
   border-color: rgba(26, 26, 26, 0.3);
 }
 
-.feed-comment-submit {
+.pd-comment-submit {
   flex-shrink: 0;
   padding: 9px 16px;
   font-size: 13px;
@@ -350,17 +344,17 @@
   transition: background 0.15s;
 }
 
-.feed-comment-submit:hover:not(:disabled) {
+.pd-comment-submit:hover:not(:disabled) {
   background: #2e2e2e;
 }
 
-.feed-comment-submit:disabled {
+.pd-comment-submit:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
 @media (max-width: 600px) {
-  .feed-page {
+  .pd-page {
     padding: 28px 16px 64px;
   }
 }
