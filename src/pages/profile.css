@@ -41,7 +41,7 @@
 }
 
 .profile-name {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
   letter-spacing: -0.3px;
   color: #1a1a1a;
@@ -50,7 +50,7 @@
 
 .profile-username {
   font-size: 14px;
-  color: #a09888;
+  color: #999;
   margin: 0 0 16px;
 }
 
