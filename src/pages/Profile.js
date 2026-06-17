@@ -139,16 +139,16 @@ export default function Profile() {
               </div>
               {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
-              <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', width: '300px', margin: '16px auto 0 auto' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: '40px', width: '240px', margin: '16px auto 0 auto' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <span className="profile-stat-num">{profile.racks_count ?? 0}</span>
                   <span className="profile-stat-label">Posts</span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <span className="profile-stat-num">{profile.followers_count ?? 0}</span>
                   <span className="profile-stat-label">Followers</span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <span className="profile-stat-num">{profile.following_count ?? 0}</span>
                   <span className="profile-stat-label">Following</span>
                 </div>
