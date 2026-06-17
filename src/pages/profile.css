@@ -73,18 +73,24 @@
 
 .profile-stats {
   display: flex;
-  gap: 12px;
-  margin-top: 4px;
+  gap: 16px;
+  margin-top: 6px;
 }
 
 .profile-stat {
-  font-size: 13px;
-  color: #888;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-stat strong {
+  font-size: 15px;
   font-weight: 500;
   color: #1a1a1a;
+}
+
+.profile-stat span {
+  font-size: 11px;
+  color: #888;
 }
 
 .profile-follow-btn {

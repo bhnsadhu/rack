@@ -138,9 +138,9 @@ export default function Profile() {
                   {profile.full_name && <h1 className="profile-name">{profile.full_name}</h1>}
                   <p className="profile-username">@{profile.username}</p>
                   <div className="profile-stats">
-                    <span className="profile-stat"><strong>{profile.racks_count ?? 0}</strong> posts</span>
-                    <span className="profile-stat"><strong>{profile.followers_count ?? 0}</strong> followers</span>
-                    <span className="profile-stat"><strong>{profile.following_count ?? 0}</strong> following</span>
+                    <span className="profile-stat"><strong>{profile.racks_count ?? 0}</strong><span>posts</span></span>
+                    <span className="profile-stat"><strong>{profile.followers_count ?? 0}</strong><span>followers</span></span>
+                    <span className="profile-stat"><strong>{profile.following_count ?? 0}</strong><span>following</span></span>
                   </div>
                 </div>
               </div>
