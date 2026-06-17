@@ -139,7 +139,7 @@ export default function Profile() {
               </div>
               {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: '40px', width: '100%', marginTop: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'flex-start', width: '300px', margin: '16px auto 0 auto' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
                   <span className="profile-stat-num">{profile.racks_count ?? 0}</span>
                   <span className="profile-stat-label">Posts</span>
