@@ -130,29 +130,22 @@ export default function Profile() {
         ) : (
           <div className="profile-container">
             <div className="profile-header">
-              <span className="profile-avatar">
-                {(profile.full_name || profile.username || '?').charAt(0).toUpperCase()}
-              </span>
-              <div className="profile-identity">
-                {profile.full_name && <h1 className="profile-name">{profile.full_name}</h1>}
-                <p className="profile-username">@{profile.username}</p>
+              <div className="profile-header-top">
+                <div className="profile-avatar">
+                  {(profile.full_name || profile.username || '?').charAt(0).toUpperCase()}
+                </div>
+                <div className="profile-info">
+                  {profile.full_name && <h1 className="profile-name">{profile.full_name}</h1>}
+                  <p className="profile-username">@{profile.username}</p>
+                  <div className="profile-stats">
+                    <span className="profile-stat"><strong>{profile.racks_count ?? 0}</strong> posts</span>
+                    <span className="profile-stat"><strong>{profile.followers_count ?? 0}</strong> followers</span>
+                    <span className="profile-stat"><strong>{profile.following_count ?? 0}</strong> following</span>
+                  </div>
+                </div>
               </div>
-              {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '40px', marginTop: '8px', width: '100%' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <span className="profile-stat-num">{profile.racks_count ?? 0}</span>
-                  <span className="profile-stat-label">Posts</span>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <span className="profile-stat-num">{profile.followers_count ?? 0}</span>
-                  <span className="profile-stat-label">Followers</span>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <span className="profile-stat-num">{profile.following_count ?? 0}</span>
-                  <span className="profile-stat-label">Following</span>
-                </div>
-              </div>
+              {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
               {profile.id !== user.id && (
                 <button
