@@ -139,16 +139,16 @@ export default function Profile() {
               </div>
               {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
-              <div className="profile-stats">
-                <div className="profile-stat">
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: '40px', width: '100%', marginTop: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
                   <span className="profile-stat-num">{profile.racks_count ?? 0}</span>
                   <span className="profile-stat-label">Posts</span>
                 </div>
-                <div className="profile-stat">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
                   <span className="profile-stat-num">{profile.followers_count ?? 0}</span>
                   <span className="profile-stat-label">Followers</span>
                 </div>
-                <div className="profile-stat">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '60px' }}>
                   <span className="profile-stat-num">{profile.following_count ?? 0}</span>
                   <span className="profile-stat-label">Following</span>
                 </div>
