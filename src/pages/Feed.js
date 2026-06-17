@@ -138,6 +138,7 @@ export default function Feed() {
         items ( id, name, photo_url, price, stores ( id, name, neighborhood, price_range ) ),
         profiles ( username, full_name )
       `)
+      .neq('user_id', user.id)
       .order('created_at', { ascending: false })
       .then(({ data, error }) => {
         if (error) console.log('[Feed] fetch error:', error);
