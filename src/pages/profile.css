@@ -72,7 +72,7 @@
 .profile-stats {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 48px;
   width: 100%;
   margin-bottom: 24px;
 }
