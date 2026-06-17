@@ -141,6 +141,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: none;
+}
+
+.feed-store:hover {
+  text-decoration: underline;
 }
 
 .feed-header-right {

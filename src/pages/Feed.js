@@ -342,7 +342,11 @@ export default function Feed() {
                             )
                           )}
                         </div>
-                        {storeLine && <span className="feed-store">{storeLine}</span>}
+                        {storeLine && (
+                          store?.id
+                            ? <Link to={`/store/${store.id}`} className="feed-store">{storeLine}</Link>
+                            : <span className="feed-store">{storeLine}</span>
+                        )}
                       </div>
                       <div className="feed-header-right">
                         <span className="feed-time">{formatRelativeTime(post.created_at)}</span>
