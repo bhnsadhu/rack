@@ -72,7 +72,6 @@
 .profile-stats {
   display: flex;
   justify-content: center;
-  gap: 48px;
   width: 100%;
   margin-bottom: 24px;
 }
@@ -82,7 +81,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  min-width: 56px;
+  width: 80px;
 }
 
 .profile-stat-num {
@@ -178,7 +177,4 @@
     padding: 28px 16px 64px;
   }
 
-  .profile-stats {
-    gap: 28px;
-  }
 }
