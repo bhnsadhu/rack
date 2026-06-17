@@ -166,8 +166,11 @@ export default function Saved() {
                             const meta = [store?.neighborhood, store?.price_range].filter(Boolean).join(' · ');
                             return (
                               <Link key={store_id} to={`/store/${store?.id}`} className="saved-store-card">
-                                <span className="saved-store-name">{store?.name}</span>
-                                {meta && <span className="saved-store-meta">{meta}</span>}
+                                <div>
+                                  <span className="saved-store-name">{store?.name}</span>
+                                  {meta && <span className="saved-store-meta">{meta}</span>}
+                                </div>
+                                <span style={{ color: '#bab0a8', fontSize: '16px' }}>→</span>
                               </Link>
                             );
                           })}
@@ -191,11 +194,14 @@ export default function Saved() {
                       const meta = [store?.neighborhood, store?.price_range].filter(Boolean).join(' · ');
                       return (
                         <Link key={store?.id} to={`/store/${store?.id}`} className="saved-store-card">
-                          <span className="saved-store-name">{store?.name}</span>
-                          {meta && <span className="saved-store-meta">{meta}</span>}
-                          <span className="saved-store-visits">
-                            {visits} visit{visits !== 1 ? 's' : ''} · last {formatVisitDate(lastVisit)}
-                          </span>
+                          <div>
+                            <span className="saved-store-name">{store?.name}</span>
+                            {meta && <span className="saved-store-meta">{meta}</span>}
+                            <span className="saved-store-visits">
+                              {visits} visit{visits !== 1 ? 's' : ''} · last {formatVisitDate(lastVisit)}
+                            </span>
+                          </div>
+                          <span style={{ color: '#bab0a8', fontSize: '16px' }}>→</span>
                         </Link>
                       );
                     })}

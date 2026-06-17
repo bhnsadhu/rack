@@ -35,7 +35,12 @@
   padding: 0 0 12px;
   margin-bottom: -1px;
   cursor: pointer;
+  outline: none;
   transition: color 0.15s, border-color 0.15s;
+}
+
+.saved-tab:focus {
+  outline: none;
 }
 
 .saved-tab--active {
@@ -98,11 +103,9 @@
 }
 
 .saved-section-label {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
-  color: #a09888;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  color: #7a7068;
   margin: 0 0 12px;
 }
 
@@ -114,18 +117,26 @@
 
 .saved-store-card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   gap: 3px;
   padding: 14px 16px;
-  background: #fffdfb;
-  border: 1px solid rgba(26, 26, 26, 0.08);
+  background: transparent;
+  border: 0.5px solid rgba(26, 26, 26, 0.12);
   border-radius: 12px;
   text-decoration: none;
   transition: background 0.15s;
 }
 
 .saved-store-card:hover {
-  background: #faf6f1;
+  background: rgba(26, 26, 26, 0.03);
+}
+
+.saved-store-card > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .saved-store-name {
