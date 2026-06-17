@@ -31,14 +31,14 @@
 }
 
 .profile-avatar {
-  width: 52px;
-  height: 52px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   background: #d4c4b0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 500;
   color: #6b5a48;
   flex-shrink: 0;
@@ -52,7 +52,7 @@
 
 .profile-name {
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.3px;
   color: #1a1a1a;
   margin: 0;
@@ -74,7 +74,7 @@
 .profile-stats {
   display: flex;
   gap: 16px;
-  margin-top: 6px;
+  margin-top: 10px;
 }
 
 .profile-stat {
@@ -129,6 +129,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+  margin-top: 8px;
 }
 
 .profile-grid-item {
@@ -158,12 +159,14 @@
   font-weight: 500;
   color: #1a1a1a;
   letter-spacing: -0.1px;
+  text-align: center;
 }
 
 .profile-grid-price {
   font-size: 13px;
   font-weight: 600;
   color: #a09888;
+  text-align: center;
 }
 
 @media (max-width: 600px) {
