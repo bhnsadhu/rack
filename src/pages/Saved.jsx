@@ -132,7 +132,7 @@ export default function Saved() {
       <Nav />
       <main className="saved-page">
         <div className="saved-container">
-          <h1 className="saved-heading">Finds</h1>
+          <h1 className="saved-heading">Stash</h1>
 
           <div className="saved-tabs">
             {TABS.map((t) => (
