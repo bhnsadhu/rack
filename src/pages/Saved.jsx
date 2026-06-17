@@ -84,16 +84,16 @@ export default function Saved() {
         .eq('user_id', user.id),
 
       supabase
-        .from('visited_stores')
-        .select(`store_id, created_at, stores ( id, name, neighborhood, price_range )`)
+        .from('racks')
+        .select(`created_at, items ( store_id, stores ( id, name, neighborhood, price_range ) )`)
         .eq('user_id', user.id)
         .order('created_at', { ascending: false }),
-    ]).then(([spRes, ssRes, likedRes, commentedRes, visitedRes]) => {
+    ]).then(([spRes, ssRes, likedRes, commentedRes, racksRes]) => {
       if (spRes.error) console.log('[Saved] saved_posts error:', spRes.error);
       if (ssRes.error) console.log('[Saved] saved_stores error:', ssRes.error);
       if (likedRes.error) console.log('[Saved] likes error:', likedRes.error);
       if (commentedRes.error) console.log('[Saved] comments error:', commentedRes.error);
-      if (visitedRes.error) console.log('[Saved] visited_stores error:', visitedRes.error);
+      if (racksRes.error) console.log('[Saved] racks error:', racksRes.error);
 
       setSavedPosts(spRes.data || []);
       setSavedStores(ssRes.data || []);
@@ -109,13 +109,15 @@ export default function Saved() {
       );
 
       const storeMap = {};
-      (visitedRes.data || []).forEach((v) => {
-        const sid = v.store_id;
+      (racksRes.data || []).forEach((rack) => {
+        const store = rack.items?.stores;
+        if (!store) return;
+        const sid = store.id;
         if (!storeMap[sid]) {
-          storeMap[sid] = { store: v.stores, visits: 0, lastVisit: v.created_at };
+          storeMap[sid] = { store, visits: 0, lastVisit: rack.created_at };
         }
         storeMap[sid].visits += 1;
-        if (v.created_at > storeMap[sid].lastVisit) storeMap[sid].lastVisit = v.created_at;
+        if (rack.created_at > storeMap[sid].lastVisit) storeMap[sid].lastVisit = rack.created_at;
       });
       setVisitedStores(Object.values(storeMap));
 
