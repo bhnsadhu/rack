@@ -21,6 +21,19 @@
   gap: 12px;
 }
 
+.app-nav-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #7a7068;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.app-nav-icon-btn:hover {
+  color: #1a1a1a;
+}
+
 .app-nav-username {
   font-size: 14px;
   color: #7a7068;

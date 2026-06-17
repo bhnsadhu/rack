@@ -18,6 +18,11 @@ export default function Nav() {
         {user ? (
           <>
             <Link to="/post" className="app-nav-btn app-nav-btn--fill">Rack it</Link>
+            <Link to="/saved" className="app-nav-icon-btn" aria-label="Saved">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 1.5h10v13l-5-3.5-5 3.5v-13z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
             {profile?.username ? (
               <Link to={`/profile/${profile.username}`} className="app-nav-username">
                 {profile.full_name || profile.username}

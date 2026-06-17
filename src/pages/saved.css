@@ -1,0 +1,125 @@
+.saved-page {
+  min-height: calc(100vh - 65px);
+  background: #f5f0eb;
+  padding: 40px 24px 80px;
+}
+
+.saved-container {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.saved-tabs {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid #d8d0c6;
+}
+
+.saved-tab {
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #a09888;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0 0 12px;
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.saved-tab--active {
+  color: #1a1a1a;
+  border-bottom-color: #1a1a1a;
+}
+
+.saved-status {
+  text-align: center;
+  font-size: 15px;
+  color: #a09888;
+  margin-top: 48px;
+}
+
+.saved-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.saved-grid-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-decoration: none;
+}
+
+.saved-grid-photo-wrap {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e8e0d4;
+}
+
+.saved-grid-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.saved-grid-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+  letter-spacing: -0.1px;
+  text-align: center;
+}
+
+.saved-grid-price {
+  font-size: 13px;
+  font-weight: 600;
+  color: #a09888;
+  text-align: center;
+}
+
+.saved-stores-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.saved-store-card {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 16px;
+  background: #fffdfb;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.saved-store-card:hover {
+  background: #faf6f1;
+}
+
+.saved-store-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.saved-store-meta {
+  font-size: 13px;
+  color: #a09888;
+}
+
+@media (max-width: 600px) {
+  .saved-page {
+    padding: 28px 16px 64px;
+  }
+}
