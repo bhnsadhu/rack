@@ -118,6 +118,8 @@ export default function Feed() {
   const [openCommentId, setOpenCommentId] = useState(null);
   const [commentDrafts, setCommentDrafts] = useState({});
   const [copiedId, setCopiedId] = useState(null);
+  const [tab, setTab] = useState('explore');
+  const [commentCounts, setCommentCounts] = useState({});
 
   useEffect(() => {
     if (!authLoading && !user) navigate('/login');
@@ -163,21 +165,26 @@ export default function Feed() {
   useEffect(() => {
     if (!user || posts.length === 0) return;
     const rackIds = posts.map((p) => p.id);
-    supabase
-      .from('likes')
-      .select('rack_id, user_id')
-      .in('rack_id', rackIds)
-      .then(({ data, error }) => {
-        if (error) { console.log('[Feed] likes fetch error:', error); return; }
-        const counts = {};
-        const liked = new Set();
-        (data || []).forEach((l) => {
-          counts[l.rack_id] = (counts[l.rack_id] || 0) + 1;
-          if (l.user_id === user.id) liked.add(l.rack_id);
-        });
-        setLikeCounts(counts);
-        setLikedIds(liked);
+    Promise.all([
+      supabase.from('likes').select('rack_id, user_id').in('rack_id', rackIds),
+      supabase.from('comments').select('rack_id').in('rack_id', rackIds),
+    ]).then(([likesRes, commentsRes]) => {
+      if (likesRes.error) console.log('[Feed] likes fetch error:', likesRes.error);
+      if (commentsRes.error) console.log('[Feed] comments fetch error:', commentsRes.error);
+      const counts = {};
+      const liked = new Set();
+      (likesRes.data || []).forEach((l) => {
+        counts[l.rack_id] = (counts[l.rack_id] || 0) + 1;
+        if (l.user_id === user.id) liked.add(l.rack_id);
       });
+      setLikeCounts(counts);
+      setLikedIds(liked);
+      const cCounts = {};
+      (commentsRes.data || []).forEach((c) => {
+        cCounts[c.rack_id] = (cCounts[c.rack_id] || 0) + 1;
+      });
+      setCommentCounts(cCounts);
+    });
   }, [user, posts]);
 
   async function toggleFollow(targetUserId) {
@@ -281,21 +288,45 @@ export default function Feed() {
 
   if (authLoading || !user) return null;
 
+  const explorePosts = posts
+    .filter((p) => p.user_id !== user.id && !followingIds.has(p.user_id))
+    .sort((a, b) => {
+      const scoreA = (likeCounts[a.id] || 0) + (commentCounts[a.id] || 0);
+      const scoreB = (likeCounts[b.id] || 0) + (commentCounts[b.id] || 0);
+      if (scoreB !== scoreA) return scoreB - scoreA;
+      return new Date(b.created_at) - new Date(a.created_at);
+    });
+  const activePosts = tab === 'explore' ? explorePosts : posts;
+
   return (
     <>
       <Nav />
       <main className="feed-page">
         <div className="feed-container">
+          <div className="feed-tabs">
+            <button
+              className={`feed-tab${tab === 'explore' ? ' feed-tab--active' : ''}`}
+              onClick={() => setTab('explore')}
+            >
+              Explore
+            </button>
+            <button
+              className={`feed-tab${tab === 'following' ? ' feed-tab--active' : ''}`}
+              onClick={() => setTab('following')}
+            >
+              Following
+            </button>
+          </div>
           {loadingPosts ? (
             <p className="feed-status">Loading…</p>
-          ) : posts.length === 0 ? (
+          ) : activePosts.length === 0 ? (
             <div className="feed-empty">
               <p>Nothing here yet. Be the first to rack something.</p>
               <Link to="/post" className="feed-empty-link">Rack something new</Link>
             </div>
           ) : (
             <div className="feed-list">
-              {posts.map((post) => {
+              {activePosts.map((post) => {
                 const item = post.items;
                 const store = item?.stores;
                 const username = post.profiles?.username;

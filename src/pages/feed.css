@@ -46,6 +46,37 @@
   background: #2e2e2e;
 }
 
+.feed-tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #d8d0c6;
+}
+
+.feed-tab {
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #a09888;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0 0 12px;
+  margin-bottom: -1px;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.feed-tab:focus {
+  outline: none;
+}
+
+.feed-tab--active {
+  color: #1a1a1a;
+  border-bottom-color: #1a1a1a;
+}
+
 .feed-list {
   display: flex;
   flex-direction: column;
