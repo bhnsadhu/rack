@@ -27,21 +27,37 @@ export default function Profile() {
     setLoadingProfile(true);
     setNotFound(false);
     setProfile(null);
-    supabase
-      .from('profile_stats')
-      .select('*')
-      .eq('username', username)
-      .maybeSingle()
-      .then(({ data, error }) => {
-        if (error) console.log('[Profile] fetch error:', error);
-        if (!data) {
-          setNotFound(true);
-          setLoadingProfile(false);
-          return;
-        }
-        setProfile(data);
+
+    async function load() {
+      const { data: pd, error: pe } = await supabase
+        .from('profiles')
+        .select('id, username, full_name, bio')
+        .eq('username', username)
+        .maybeSingle();
+
+      if (pe) console.log('[Profile] fetch error:', pe);
+      if (!pd) {
+        setNotFound(true);
         setLoadingProfile(false);
+        return;
+      }
+
+      const { data: sd } = await supabase
+        .from('profile_stats')
+        .select('followers_count, following_count, racks_count')
+        .eq('id', pd.id)
+        .maybeSingle();
+
+      setProfile({
+        ...pd,
+        followers_count: sd?.followers_count ?? 0,
+        following_count: sd?.following_count ?? 0,
+        racks_count: sd?.racks_count ?? 0,
       });
+      setLoadingProfile(false);
+    }
+
+    load();
   }, [user, username]);
 
   useEffect(() => {
