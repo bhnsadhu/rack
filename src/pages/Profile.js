@@ -133,7 +133,7 @@ export default function Profile() {
               <span className="profile-avatar">
                 {(profile.full_name || profile.username || '?').charAt(0).toUpperCase()}
               </span>
-              <h1 className="profile-name">{profile.full_name}</h1>
+              {profile.full_name && <h1 className="profile-name">{profile.full_name}</h1>}
               <p className="profile-username">@{profile.username}</p>
               {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
