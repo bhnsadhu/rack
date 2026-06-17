@@ -42,6 +42,8 @@ export default function Store() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [visitCount, setVisitCount] = useState(0);
+  const [visitLoading, setVisitLoading] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) navigate('/login');
@@ -84,6 +86,30 @@ export default function Store() {
     load();
   }, [user, id]);
 
+  useEffect(() => {
+    if (!user || !id) return;
+    supabase
+      .from('visited_stores')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .eq('store_id', id)
+      .then(({ count, error }) => {
+        if (error) console.log('[Store] visit count error:', error);
+        setVisitCount(count || 0);
+      });
+  }, [user, id]);
+
+  async function markVisited() {
+    if (visitLoading) return;
+    setVisitLoading(true);
+    const { error } = await supabase
+      .from('visited_stores')
+      .insert({ user_id: user.id, store_id: id });
+    if (error) console.log('[Store] mark visited error:', error);
+    else setVisitCount((prev) => prev + 1);
+    setVisitLoading(false);
+  }
+
   const avgRating =
     posts.length > 0
       ? posts.reduce((sum, p) => sum + (p.rating || 0), 0) / posts.length
@@ -114,6 +140,16 @@ export default function Store() {
                   </span>
                 </div>
               )}
+              <button
+                type="button"
+                className={`store-visit-btn${visitCount > 0 ? ' store-visit-btn--visited' : ''}`}
+                onClick={markVisited}
+                disabled={visitLoading}
+              >
+                {visitCount > 0
+                  ? `Visited ${visitCount} time${visitCount !== 1 ? 's' : ''}`
+                  : 'Mark as visited'}
+              </button>
             </div>
 
             {posts.length === 0 ? (
