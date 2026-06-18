@@ -284,7 +284,7 @@
 .feed-actions {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   padding: 10px 16px 14px;
   border-top: 1px solid rgba(26, 26, 26, 0.07);
 }
@@ -292,7 +292,7 @@
 .feed-action-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: none;
   border: none;
   padding: 0;
@@ -302,6 +302,17 @@
   font-weight: 500;
   font-family: inherit;
   transition: color 0.15s;
+  height: 24px;
+  text-decoration: none;
+}
+
+.feed-action-btn svg {
+  flex-shrink: 0;
+  display: block;
+}
+
+.feed-action-btn span {
+  line-height: 1;
 }
 
 .feed-action-btn:hover {

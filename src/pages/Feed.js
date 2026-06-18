@@ -69,7 +69,7 @@ function PinIcon({ filled }) {
 
 function HeartIcon({ filled }) {
   return (
-    <svg width="18" height="16" viewBox="0 0 18 16" fill={filled ? '#e0473e' : 'none'} aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 18 16" fill={filled ? '#e0473e' : 'none'} aria-hidden="true">
       <path
         d="M9 14.2s-6.2-3.8-7.6-7.7C0.6 3.8 2.4 1.4 5.1 1.4c1.6 0 2.9 0.9 3.9 2.3 1-1.4 2.3-2.3 3.9-2.3 2.7 0 4.5 2.4 3.7 5.1-1.4 3.9-7.6 7.7-7.6 7.7z"
         stroke={filled ? '#e0473e' : 'currentColor'}
@@ -82,7 +82,7 @@ function HeartIcon({ filled }) {
 
 function CommentIcon() {
   return (
-    <svg width="18" height="17" viewBox="0 0 18 17" fill="none" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 18 17" fill="none" aria-hidden="true">
       <path
         d="M1.5 8.2c0-3.7 3.4-6.5 7.5-6.5s7.5 2.8 7.5 6.5-3.4 6.5-7.5 6.5c-0.9 0-1.8-0.1-2.6-0.4L2.5 16l0.9-3.2c-1.2-1.2-1.9-2.8-1.9-4.6z"
         stroke="currentColor"
@@ -96,7 +96,7 @@ function CommentIcon() {
 
 function ShareIcon() {
   return (
-    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 16 17" fill="none" aria-hidden="true">
       <circle cx="13" cy="3" r="2" stroke="currentColor" strokeWidth="1.3" />
       <circle cx="3" cy="8.5" r="2" stroke="currentColor" strokeWidth="1.3" />
       <circle cx="13" cy="14" r="2" stroke="currentColor" strokeWidth="1.3" />
