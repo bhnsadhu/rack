@@ -358,9 +358,7 @@ export default function PostDetail() {
       <Nav />
       <main className="pd-page">
         <div className="pd-container">
-          <button type="button" className="pd-back" onClick={() => navigate(-1)}>
-            ← Back
-          </button>
+          <button type="button" className="page-back-btn" onClick={() => navigate(-1)}>← Back</button>
 
           <article className="pd-card">
             <div className="pd-card-header">

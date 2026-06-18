@@ -101,6 +101,7 @@ export default function Store() {
           <p className="store-status">Store not found.</p>
         ) : (
           <div className="store-container">
+            <button type="button" className="page-back-btn" onClick={() => navigate(-1)}>← Back</button>
             <div className="store-header">
               <h1 className="store-name">{store.name}</h1>
               <p className="store-meta">

@@ -134,6 +134,7 @@ export default function Profile() {
           <p className="profile-status">User not found.</p>
         ) : (
           <div className="profile-container">
+            <button type="button" className="page-back-btn" onClick={() => navigate(-1)}>← Back</button>
             <div className="profile-header">
               {profile.id === user.id && (
                 <button type="button" className="profile-signout-btn" onClick={handleSignOut}>

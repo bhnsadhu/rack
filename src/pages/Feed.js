@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../AuthContext';
@@ -116,6 +116,7 @@ export default function Feed() {
   const [likedIds, setLikedIds] = useState(new Set());
   const [likeCounts, setLikeCounts] = useState({});
   const [copiedId, setCopiedId] = useState(null);
+  const initialFollowingIdsRef = useRef(null);
   const [tab, setTab] = useState('explore');
   const [commentCounts, setCommentCounts] = useState({});
   const [topComments, setTopComments] = useState({});
@@ -156,7 +157,11 @@ export default function Feed() {
       if (followsRes.error) console.log('[Feed] follows fetch error:', followsRes.error);
       if (savedPostsRes.error) console.log('[Feed] saved_posts fetch error:', savedPostsRes.error);
       if (savedStoresRes.error) console.log('[Feed] saved_stores fetch error:', savedStoresRes.error);
-      setFollowingIds(new Set((followsRes.data || []).map((f) => f.following_id)));
+      const ids = new Set((followsRes.data || []).map((f) => f.following_id));
+      setFollowingIds(ids);
+      if (initialFollowingIdsRef.current === null) {
+        initialFollowingIdsRef.current = new Set(ids);
+      }
       setSavedPostIds(new Set((savedPostsRes.data || []).map((p) => p.rack_id)));
       setSavedStoreIds(new Set((savedStoresRes.data || []).map((s) => s.store_id)));
     });
@@ -212,10 +217,18 @@ export default function Feed() {
       if (error) { console.log('[Feed] unfollow error:', error); return; }
       setFollowingIds((prev) => { const next = new Set(prev); next.delete(targetUserId); return next; });
     } else {
-      const { error } = await supabase
+      const { data: existing } = await supabase
         .from('follows')
-        .insert({ follower_id: user.id, following_id: targetUserId });
-      if (error) { console.log('[Feed] follow error:', error); return; }
+        .select('follower_id')
+        .eq('follower_id', user.id)
+        .eq('following_id', targetUserId)
+        .maybeSingle();
+      if (!existing) {
+        const { error } = await supabase
+          .from('follows')
+          .insert({ follower_id: user.id, following_id: targetUserId });
+        if (error) { console.log('[Feed] follow error:', error); return; }
+      }
       setFollowingIds((prev) => new Set(prev).add(targetUserId));
     }
   }
@@ -289,8 +302,9 @@ export default function Feed() {
 
   if (authLoading || !user) return null;
 
+  const exploreFilter = initialFollowingIdsRef.current ?? followingIds;
   const explorePosts = posts
-    .filter((p) => p.user_id !== user.id && !followingIds.has(p.user_id))
+    .filter((p) => p.user_id !== user.id && !exploreFilter.has(p.user_id))
     .sort((a, b) => {
       const scoreA = (likeCounts[a.id] || 0) + (commentCounts[a.id] || 0);
       const scoreB = (likeCounts[b.id] || 0) + (commentCounts[b.id] || 0);
