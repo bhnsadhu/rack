@@ -32,12 +32,42 @@
   color: #1a1a1a;
 }
 
-.nav-status {
-  font-size: 11px;
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-btn {
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #a09888;
+  font-family: inherit;
+  padding: 8px 18px;
+  border-radius: 40px;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.15s;
+}
+
+.nav-btn--ghost {
+  background: transparent;
+  color: #1a1a1a;
+}
+
+.nav-btn--ghost:hover {
+  background: rgba(26, 26, 26, 0.06);
+}
+
+.nav-btn--fill {
+  background: #1a1a1a;
+  color: #f5f0eb;
+}
+
+.nav-btn--fill:hover {
+  background: #2e2e2e;
 }
 
 /* ── Hero ── */

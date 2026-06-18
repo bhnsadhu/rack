@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './App.css';
 
 const FEED_CARDS = [
@@ -119,7 +120,10 @@ export default function App() {
       <nav className="nav">
         <div className="container nav-container">
           <span className="nav-brand">RACK</span>
-          <span className="nav-status">Coming soon</span>
+          <div className="nav-actions">
+            <Link to="/login" className="nav-btn nav-btn--ghost">Log in</Link>
+            <Link to="/signup" className="nav-btn nav-btn--fill">Sign up</Link>
+          </div>
         </div>
       </nav>
 
