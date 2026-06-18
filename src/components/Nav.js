@@ -39,9 +39,6 @@ export default function Nav() {
             ) : (
               <span className="app-nav-username">{profile?.full_name || profile?.username || user.email}</span>
             )}
-            <button className="app-nav-btn app-nav-btn--outline" onClick={handleSignOut}>
-              Log out
-            </button>
           </>
         ) : (
           <>

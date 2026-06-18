@@ -96,6 +96,11 @@ export default function Profile() {
       });
   }, [user, profile]);
 
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    navigate('/login');
+  }
+
   async function toggleFollow() {
     if (!profile || followLoading) return;
     setFollowLoading(true);
@@ -147,7 +152,7 @@ export default function Profile() {
 
               {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
-              {profile.id !== user.id && (
+              {profile.id !== user.id ? (
                 <button
                   type="button"
                   className={`profile-follow-btn${isFollowing ? ' profile-follow-btn--following' : ''}`}
@@ -155,6 +160,10 @@ export default function Profile() {
                   disabled={followLoading}
                 >
                   {isFollowing ? 'Following' : 'Follow'}
+                </button>
+              ) : (
+                <button type="button" className="profile-signout-btn" onClick={handleSignOut}>
+                  Log out
                 </button>
               )}
             </div>

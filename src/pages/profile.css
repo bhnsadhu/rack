@@ -125,6 +125,22 @@
   background: rgba(26, 26, 26, 0.04);
 }
 
+.profile-signout-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  color: #a09888;
+  margin-top: 12px;
+  transition: color 0.15s;
+}
+
+.profile-signout-btn:hover {
+  color: #7a7068;
+}
+
 .profile-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
