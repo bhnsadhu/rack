@@ -115,11 +115,10 @@ export default function Feed() {
   const [savedStoreIds, setSavedStoreIds] = useState(new Set());
   const [likedIds, setLikedIds] = useState(new Set());
   const [likeCounts, setLikeCounts] = useState({});
-  const [openCommentId, setOpenCommentId] = useState(null);
-  const [commentDrafts, setCommentDrafts] = useState({});
   const [copiedId, setCopiedId] = useState(null);
   const [tab, setTab] = useState('explore');
   const [commentCounts, setCommentCounts] = useState({});
+  const [topComments, setTopComments] = useState({});
 
   useEffect(() => {
     if (!authLoading && !user) navigate('/login');
@@ -169,9 +168,17 @@ export default function Feed() {
     Promise.all([
       supabase.from('likes').select('rack_id, user_id').in('rack_id', rackIds),
       supabase.from('comments').select('rack_id').in('rack_id', rackIds),
-    ]).then(([likesRes, commentsRes]) => {
+      supabase
+        .from('comments')
+        .select('id, rack_id, content, created_at, profiles ( username, full_name )')
+        .in('rack_id', rackIds)
+        .is('parent_id', null)
+        .order('created_at', { ascending: true }),
+    ]).then(([likesRes, commentsRes, topCommentsRes]) => {
       if (likesRes.error) console.log('[Feed] likes fetch error:', likesRes.error);
       if (commentsRes.error) console.log('[Feed] comments fetch error:', commentsRes.error);
+      if (topCommentsRes.error) console.log('[Feed] top comments fetch error:', topCommentsRes.error);
+
       const counts = {};
       const liked = new Set();
       (likesRes.data || []).forEach((l) => {
@@ -180,11 +187,18 @@ export default function Feed() {
       });
       setLikeCounts(counts);
       setLikedIds(liked);
+
       const cCounts = {};
       (commentsRes.data || []).forEach((c) => {
         cCounts[c.rack_id] = (cCounts[c.rack_id] || 0) + 1;
       });
       setCommentCounts(cCounts);
+
+      const topMap = {};
+      (topCommentsRes.data || []).forEach((c) => {
+        if (!topMap[c.rack_id]) topMap[c.rack_id] = c;
+      });
+      setTopComments(topMap);
     });
   }, [user, posts]);
 
@@ -262,22 +276,8 @@ export default function Feed() {
     }
   }
 
-  function toggleCommentBox(rackId) {
-    setOpenCommentId((prev) => (prev === rackId ? null : rackId));
-  }
-
-  async function submitComment(rackId) {
-    const content = (commentDrafts[rackId] || '').trim();
-    if (!content) return;
-    const { error } = await supabase
-      .from('comments')
-      .insert({ user_id: user.id, rack_id: rackId, content });
-    if (error) { console.log('[Feed] comment insert error:', error); return; }
-    setCommentDrafts((prev) => ({ ...prev, [rackId]: '' }));
-  }
-
   async function handleShare(rackId) {
-    const url = `${window.location.origin}/feed?post=${rackId}`;
+    const url = `${window.location.origin}/post/${rackId}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopiedId(rackId);
@@ -341,7 +341,8 @@ export default function Feed() {
                 const isStoreSaved = store?.id ? savedStoreIds.has(store.id) : false;
                 const isLiked = likedIds.has(post.id);
                 const likeCount = likeCounts[post.id] || 0;
-                const isCommentOpen = openCommentId === post.id;
+                const commentCount = commentCounts[post.id] || 0;
+                const topComment = topComments[post.id];
 
                 return (
                   <article key={post.id} className="feed-card">
@@ -423,41 +424,30 @@ export default function Feed() {
                         <HeartIcon filled={isLiked} />
                         <span>{likeCount}</span>
                       </button>
-                      <button type="button" className="feed-action-btn" onClick={() => toggleCommentBox(post.id)}>
+                      <Link to={`/post/${post.id}`} className="feed-action-btn">
                         <CommentIcon />
-                        <span>Comment</span>
-                      </button>
+                        <span>{commentCount}</span>
+                      </Link>
                       <button type="button" className="feed-action-btn" onClick={() => handleShare(post.id)}>
                         <ShareIcon />
                         <span>{copiedId === post.id ? 'Copied!' : 'Share'}</span>
                       </button>
                     </div>
 
-                    {isCommentOpen && (
-                      <div className="feed-comment-box">
-                        <input
-                          className="feed-comment-input"
-                          type="text"
-                          placeholder="Add a comment..."
-                          value={commentDrafts[post.id] || ''}
-                          onChange={(e) =>
-                            setCommentDrafts((prev) => ({ ...prev, [post.id]: e.target.value }))
-                          }
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              e.preventDefault();
-                              submitComment(post.id);
-                            }
-                          }}
-                        />
-                        <button
-                          type="button"
-                          className="feed-comment-submit"
-                          onClick={() => submitComment(post.id)}
-                          disabled={!(commentDrafts[post.id] || '').trim()}
-                        >
-                          Post
-                        </button>
+                    {topComment && (
+                      <div className="feed-top-comment">
+                        <p className="feed-top-comment-line">
+                          <span className="feed-top-comment-user">
+                            {topComment.profiles?.full_name || topComment.profiles?.username || 'Someone'}
+                          </span>
+                          {' '}
+                          <span className="feed-top-comment-text">{topComment.content}</span>
+                        </p>
+                        {commentCount >= 2 && (
+                          <Link to={`/post/${post.id}`} className="feed-view-comments">
+                            View all {commentCount} comments
+                          </Link>
+                        )}
                       </div>
                     )}
                   </article>

@@ -102,6 +102,9 @@ export default function PostDetail() {
   const [commentDraft, setCommentDraft] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [replyingTo, setReplyingTo] = useState(null);
+  const [replyDraft, setReplyDraft] = useState('');
+  const [replySubmitting, setReplySubmitting] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) navigate('/login');
@@ -122,7 +125,7 @@ export default function PostDetail() {
           .maybeSingle(),
         supabase
           .from('comments')
-          .select('id, content, created_at, user_id, profiles ( username, full_name )')
+          .select('id, content, created_at, user_id, parent_id, profiles ( username, full_name )')
           .eq('rack_id', id)
           .order('created_at', { ascending: true }),
       ]);
@@ -211,7 +214,7 @@ export default function PostDetail() {
     const { data, error } = await supabase
       .from('comments')
       .insert({ user_id: user.id, rack_id: id, content })
-      .select('id, content, created_at, user_id, profiles ( username, full_name )')
+      .select('id, content, created_at, user_id, parent_id, profiles ( username, full_name )')
       .single();
     if (error) {
       console.log('[PostDetail] comment error:', error);
@@ -221,6 +224,26 @@ export default function PostDetail() {
     setComments((prev) => [...prev, data]);
     setCommentDraft('');
     setSubmitting(false);
+  }
+
+  async function submitReply(parentId) {
+    const content = replyDraft.trim();
+    if (!content || replySubmitting) return;
+    setReplySubmitting(true);
+    const { data, error } = await supabase
+      .from('comments')
+      .insert({ user_id: user.id, rack_id: id, content, parent_id: parentId })
+      .select('id, content, created_at, user_id, parent_id, profiles ( username, full_name )')
+      .single();
+    if (error) {
+      console.log('[PostDetail] reply error:', error);
+      setReplySubmitting(false);
+      return;
+    }
+    setComments((prev) => [...prev, data]);
+    setReplyDraft('');
+    setReplyingTo(null);
+    setReplySubmitting(false);
   }
 
   if (authLoading || !user) return null;
@@ -256,6 +279,79 @@ export default function PostDetail() {
   const username = post.profiles?.username;
   const fullName = post.profiles?.full_name || username || 'Someone';
   const storeLine = [store?.name, store?.neighborhood, store?.price_range].filter(Boolean).join(' · ');
+
+  // Build comment tree
+  const topLevelComments = comments
+    .filter((c) => !c.parent_id)
+    .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+  const repliesByParentId = {};
+  comments
+    .filter((c) => c.parent_id)
+    .forEach((c) => {
+      if (!repliesByParentId[c.parent_id]) repliesByParentId[c.parent_id] = [];
+      repliesByParentId[c.parent_id].push(c);
+    });
+
+  function renderComment(comment, depth = 0) {
+    const cUsername = comment.profiles?.username;
+    const cName = comment.profiles?.full_name || cUsername || 'Someone';
+    const replies = (repliesByParentId[comment.id] || []).sort(
+      (a, b) => new Date(a.created_at) - new Date(b.created_at)
+    );
+    const isReplying = replyingTo === comment.id;
+
+    return (
+      <div key={comment.id} className={depth > 0 ? 'pd-comment pd-comment--reply' : 'pd-comment'}>
+        <span className="pd-comment-avatar">{cName.charAt(0).toUpperCase()}</span>
+        <div className="pd-comment-body">
+          <div className="pd-comment-top">
+            {cUsername ? (
+              <Link to={`/profile/${cUsername}`} className="pd-comment-username">{cName}</Link>
+            ) : (
+              <span className="pd-comment-username">{cName}</span>
+            )}
+            <span className="pd-comment-time">{formatRelativeTime(comment.created_at)}</span>
+          </div>
+          <p className="pd-comment-text">{comment.content}</p>
+          <button
+            type="button"
+            className="pd-reply-btn"
+            onClick={() => {
+              setReplyingTo(isReplying ? null : comment.id);
+              setReplyDraft('');
+            }}
+          >
+            Reply
+          </button>
+          {isReplying && (
+            <div className="pd-reply-box">
+              <input
+                className="pd-comment-input"
+                type="text"
+                placeholder="Write a reply…"
+                value={replyDraft}
+                autoFocus
+                onChange={(e) => setReplyDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') { e.preventDefault(); submitReply(comment.id); }
+                }}
+              />
+              <button
+                type="button"
+                className="pd-comment-submit"
+                onClick={() => submitReply(comment.id)}
+                disabled={!replyDraft.trim() || replySubmitting}
+              >
+                Post
+              </button>
+            </div>
+          )}
+          {replies.map((reply) => renderComment(reply, depth + 1))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -328,28 +424,9 @@ export default function PostDetail() {
           </article>
 
           <div className="pd-comments">
-            {comments.length > 0 && (
+            {topLevelComments.length > 0 && (
               <div className="pd-comments-list">
-                {comments.map((comment) => {
-                  const cUsername = comment.profiles?.username;
-                  const cName = comment.profiles?.full_name || cUsername || 'Someone';
-                  return (
-                    <div key={comment.id} className="pd-comment">
-                      <span className="pd-comment-avatar">{cName.charAt(0).toUpperCase()}</span>
-                      <div className="pd-comment-body">
-                        <div className="pd-comment-top">
-                          {cUsername ? (
-                            <Link to={`/profile/${cUsername}`} className="pd-comment-username">{cName}</Link>
-                          ) : (
-                            <span className="pd-comment-username">{cName}</span>
-                          )}
-                          <span className="pd-comment-time">{formatRelativeTime(comment.created_at)}</span>
-                        </div>
-                        <p className="pd-comment-text">{comment.content}</p>
-                      </div>
-                    </div>
-                  );
-                })}
+                {topLevelComments.map((c) => renderComment(c))}
               </div>
             )}
 

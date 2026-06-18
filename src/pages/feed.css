@@ -308,6 +308,35 @@
   color: #1a1a1a;
 }
 
+.feed-top-comment {
+  padding: 0 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.feed-top-comment-line {
+  font-size: 13px;
+  color: #3a3a3a;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.feed-top-comment-user {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.feed-view-comments {
+  font-size: 12px;
+  color: #a09888;
+  text-decoration: none;
+}
+
+.feed-view-comments:hover {
+  color: #7a7068;
+}
+
 .feed-comment-box {
   display: flex;
   gap: 8px;
