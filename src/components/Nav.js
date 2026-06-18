@@ -1,15 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import './Nav.css';
 
 export default function Nav() {
-  const { user, profile, signOut } = useAuth();
-  const navigate = useNavigate();
-
-  async function handleSignOut() {
-    await signOut();
-    navigate('/');
-  }
+  const { user, profile } = useAuth();
 
   return (
     <nav className="app-nav">

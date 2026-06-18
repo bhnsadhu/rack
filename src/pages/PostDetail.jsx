@@ -130,15 +130,12 @@ export default function PostDetail() {
           .order('created_at', { ascending: true }),
       ]);
 
-      if (postRes.error) console.log('[PostDetail] post error:', postRes.error);
       if (!postRes.data) {
         setNotFound(true);
         setLoading(false);
         return;
       }
       setPost(postRes.data);
-
-      if (commentsRes.error) console.log('[PostDetail] comments error:', commentsRes.error);
       setComments(commentsRes.data || []);
 
       const storeId = postRes.data.items?.stores?.id;
@@ -202,8 +199,8 @@ export default function PostDetail() {
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    } catch (err) {
-      console.log('[PostDetail] clipboard error:', err);
+    } catch {
+      // clipboard not available
     }
   }
 
@@ -216,11 +213,7 @@ export default function PostDetail() {
       .insert({ user_id: user.id, rack_id: id, content })
       .select('id, content, created_at, user_id, parent_id, profiles ( username, full_name )')
       .single();
-    if (error) {
-      console.log('[PostDetail] comment error:', error);
-      setSubmitting(false);
-      return;
-    }
+    if (error) { setSubmitting(false); return; }
     setComments((prev) => [...prev, data]);
     setCommentDraft('');
     setSubmitting(false);
@@ -235,11 +228,7 @@ export default function PostDetail() {
       .insert({ user_id: user.id, rack_id: id, content, parent_id: parentId })
       .select('id, content, created_at, user_id, parent_id, profiles ( username, full_name )')
       .single();
-    if (error) {
-      console.log('[PostDetail] reply error:', error);
-      setReplySubmitting(false);
-      return;
-    }
+    if (error) { setReplySubmitting(false); return; }
     setComments((prev) => [...prev, data]);
     setReplyDraft('');
     setReplyingTo(null);
@@ -280,7 +269,6 @@ export default function PostDetail() {
   const fullName = post.profiles?.full_name || username || 'Someone';
   const storeLine = [store?.name, store?.neighborhood, store?.price_range].filter(Boolean).join(' · ');
 
-  // Build comment tree
   const topLevelComments = comments
     .filter((c) => !c.parent_id)
     .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));

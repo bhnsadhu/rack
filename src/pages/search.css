@@ -11,7 +11,7 @@
 
 .search-input-wrap {
   position: relative;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
 .search-input-icon {
@@ -72,7 +72,7 @@
 }
 
 .search-section {
-  margin-bottom: 36px;
+  margin-bottom: 32px;
 }
 
 .search-section-label {
@@ -116,13 +116,13 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #c8b89a;
-  color: #fff;
+  background: #d4c4b0;
+  color: #6b5a48;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .search-row-info {
@@ -143,7 +143,7 @@
 }
 
 .search-row-sub {
-  font-size: 12px;
+  font-size: 13px;
   color: #a09888;
   white-space: nowrap;
   overflow: hidden;
@@ -152,7 +152,7 @@
 
 .search-row-meta {
   flex-shrink: 0;
-  font-size: 12px;
+  font-size: 13px;
   color: #bab0a8;
   white-space: nowrap;
 }

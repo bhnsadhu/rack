@@ -139,8 +139,7 @@ export default function Feed() {
       `)
       .neq('user_id', user.id)
       .order('created_at', { ascending: false })
-      .then(({ data, error }) => {
-        if (error) console.log('[Feed] fetch error:', error);
+      .then(({ data }) => {
         setPosts(data || []);
         setLoadingPosts(false);
       });
@@ -153,9 +152,6 @@ export default function Feed() {
       supabase.from('saved_posts').select('rack_id').eq('user_id', user.id),
       supabase.from('saved_stores').select('store_id').eq('user_id', user.id),
     ]).then(([followsRes, savedPostsRes, savedStoresRes]) => {
-      if (followsRes.error) console.log('[Feed] follows fetch error:', followsRes.error);
-      if (savedPostsRes.error) console.log('[Feed] saved_posts fetch error:', savedPostsRes.error);
-      if (savedStoresRes.error) console.log('[Feed] saved_stores fetch error:', savedStoresRes.error);
       setFollowingIds(new Set((followsRes.data || []).map((f) => f.following_id)));
       setSavedPostIds(new Set((savedPostsRes.data || []).map((p) => p.rack_id)));
       setSavedStoreIds(new Set((savedStoresRes.data || []).map((s) => s.store_id)));
@@ -175,10 +171,6 @@ export default function Feed() {
         .is('parent_id', null)
         .order('created_at', { ascending: true }),
     ]).then(([likesRes, commentsRes, topCommentsRes]) => {
-      if (likesRes.error) console.log('[Feed] likes fetch error:', likesRes.error);
-      if (commentsRes.error) console.log('[Feed] comments fetch error:', commentsRes.error);
-      if (topCommentsRes.error) console.log('[Feed] top comments fetch error:', topCommentsRes.error);
-
       const counts = {};
       const liked = new Set();
       (likesRes.data || []).forEach((l) => {
@@ -209,7 +201,7 @@ export default function Feed() {
         .delete()
         .eq('follower_id', user.id)
         .eq('following_id', targetUserId);
-      if (error) { console.log('[Feed] unfollow error:', error); return; }
+      if (error) return;
       setFollowingIds((prev) => { const next = new Set(prev); next.delete(targetUserId); return next; });
     } else {
       const { data: existing } = await supabase
@@ -222,7 +214,7 @@ export default function Feed() {
         const { error } = await supabase
           .from('follows')
           .insert({ follower_id: user.id, following_id: targetUserId });
-        if (error) { console.log('[Feed] follow error:', error); return; }
+        if (error) return;
       }
       setFollowingIds((prev) => new Set(prev).add(targetUserId));
     }
@@ -235,13 +227,13 @@ export default function Feed() {
         .delete()
         .eq('user_id', user.id)
         .eq('rack_id', rackId);
-      if (error) { console.log('[Feed] unsave post error:', error); return; }
+      if (error) return;
       setSavedPostIds((prev) => { const next = new Set(prev); next.delete(rackId); return next; });
     } else {
       const { error } = await supabase
         .from('saved_posts')
         .insert({ user_id: user.id, rack_id: rackId });
-      if (error) { console.log('[Feed] save post error:', error); return; }
+      if (error) return;
       setSavedPostIds((prev) => new Set(prev).add(rackId));
     }
   }
@@ -253,13 +245,13 @@ export default function Feed() {
         .delete()
         .eq('user_id', user.id)
         .eq('store_id', storeId);
-      if (error) { console.log('[Feed] unsave store error:', error); return; }
+      if (error) return;
       setSavedStoreIds((prev) => { const next = new Set(prev); next.delete(storeId); return next; });
     } else {
       const { error } = await supabase
         .from('saved_stores')
         .insert({ user_id: user.id, store_id: storeId });
-      if (error) { console.log('[Feed] save store error:', error); return; }
+      if (error) return;
       setSavedStoreIds((prev) => new Set(prev).add(storeId));
     }
   }
@@ -271,14 +263,14 @@ export default function Feed() {
         .delete()
         .eq('user_id', user.id)
         .eq('rack_id', rackId);
-      if (error) { console.log('[Feed] unlike error:', error); return; }
+      if (error) return;
       setLikedIds((prev) => { const next = new Set(prev); next.delete(rackId); return next; });
       setLikeCounts((prev) => ({ ...prev, [rackId]: Math.max(0, (prev[rackId] || 1) - 1) }));
     } else {
       const { error } = await supabase
         .from('likes')
         .insert({ user_id: user.id, rack_id: rackId });
-      if (error) { console.log('[Feed] like error:', error); return; }
+      if (error) return;
       setLikedIds((prev) => new Set(prev).add(rackId));
       setLikeCounts((prev) => ({ ...prev, [rackId]: (prev[rackId] || 0) + 1 }));
     }
@@ -290,8 +282,8 @@ export default function Feed() {
       await navigator.clipboard.writeText(url);
       setCopiedId(rackId);
       setTimeout(() => setCopiedId((prev) => (prev === rackId ? null : prev)), 1500);
-    } catch (err) {
-      console.log('[Feed] clipboard error:', err);
+    } catch {
+      // clipboard not available
     }
   }
 

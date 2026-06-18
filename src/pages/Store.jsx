@@ -57,7 +57,7 @@ export default function Store() {
         .eq('id', id)
         .maybeSingle();
 
-      if (storeError) console.log('[Store] fetch error:', storeError);
+      if (storeError) { setNotFound(true); setLoading(false); return; }
       if (!storeData) {
         setNotFound(true);
         setLoading(false);
@@ -76,7 +76,6 @@ export default function Store() {
         .eq('items.store_id', id)
         .order('created_at', { ascending: false });
 
-      if (postsError) console.log('[Store] posts fetch error:', postsError);
       setPosts(postsData || []);
       setLoading(false);
     }
@@ -128,7 +127,7 @@ export default function Store() {
                   return (
                     <Link
                       key={post.id}
-                      to={username ? `/profile/${username}` : '/feed'}
+                      to={`/post/${post.id}`}
                       className="store-grid-item"
                     >
                       <div className="store-grid-photo-wrap">

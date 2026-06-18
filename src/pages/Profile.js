@@ -35,7 +35,6 @@ export default function Profile() {
         .eq('username', username)
         .maybeSingle();
 
-      if (pe) console.log('[Profile] fetch error:', pe);
       if (!pd) {
         setNotFound(true);
         setLoadingProfile(false);
@@ -73,7 +72,6 @@ export default function Profile() {
       .eq('user_id', profile.id)
       .order('created_at', { ascending: false })
       .then(({ data, error }) => {
-        if (error) console.log('[Profile] posts fetch error:', error);
         setPosts(data || []);
         setLoadingPosts(false);
       });
@@ -91,7 +89,6 @@ export default function Profile() {
       .eq('following_id', profile.id)
       .maybeSingle()
       .then(({ data, error }) => {
-        if (error) console.log('[Profile] follow check error:', error);
         setIsFollowing(!!data);
       });
   }, [user, profile]);
@@ -110,14 +107,12 @@ export default function Profile() {
         .delete()
         .eq('follower_id', user.id)
         .eq('following_id', profile.id);
-      if (error) console.log('[Profile] unfollow error:', error);
-      else setIsFollowing(false);
+      if (!error) setIsFollowing(false);
     } else {
       const { error } = await supabase
         .from('follows')
         .insert({ follower_id: user.id, following_id: profile.id });
-      if (error) console.log('[Profile] follow error:', error);
-      else setIsFollowing(true);
+      if (!error) setIsFollowing(true);
     }
     setFollowLoading(false);
   }
@@ -134,7 +129,9 @@ export default function Profile() {
           <p className="profile-status">User not found.</p>
         ) : (
           <div className="profile-container">
-            <button type="button" className="page-back-btn" onClick={() => navigate(-1)}>← Back</button>
+            {profile.id !== user.id && (
+              <button type="button" className="page-back-btn" onClick={() => navigate(-1)}>← Back</button>
+            )}
             <div className="profile-header">
               {profile.id === user.id && (
                 <button type="button" className="profile-signout-btn" onClick={handleSignOut}>
@@ -179,7 +176,7 @@ export default function Profile() {
                 {posts.map((post) => {
                   const item = post.items;
                   return (
-                    <Link key={post.id} to="/feed" className="profile-grid-item">
+                    <Link key={post.id} to={`/post/${post.id}`} className="profile-grid-item">
                       <div className="profile-grid-photo-wrap">
                         {item?.photo_url && (
                           <img src={item.photo_url} alt={item.name} className="profile-grid-photo" />

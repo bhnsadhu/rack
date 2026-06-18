@@ -5,7 +5,7 @@
 }
 
 .pd-container {
-  max-width: 520px;
+  max-width: 560px;
   margin: 0 auto;
 }
 
@@ -13,7 +13,7 @@
   text-align: center;
   font-size: 15px;
   color: #a09888;
-  margin-top: 64px;
+  margin-top: 48px;
 }
 
 .page-back-btn {
@@ -26,7 +26,7 @@
   color: #a09888;
   text-decoration: none;
   display: inline-block;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   transition: color 0.15s;
 }
 
@@ -54,13 +54,13 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #c8b89a;
-  color: #fff;
+  background: #d4c4b0;
+  color: #6b5a48;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   text-decoration: none;
 }
 
@@ -81,7 +81,7 @@
 
 .pd-username {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: #1a1a1a;
   white-space: nowrap;
   overflow: hidden;
@@ -165,7 +165,7 @@
 .pd-item-price {
   font-size: 15px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #a09888;
   flex-shrink: 0;
 }
 
@@ -204,7 +204,7 @@
 .pd-actions {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   padding: 10px 16px 14px;
   border-top: 1px solid rgba(26, 26, 26, 0.07);
 }
@@ -253,16 +253,16 @@
 
 .pd-comment-avatar {
   flex-shrink: 0;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: #c8b89a;
-  color: #fff;
+  background: #d4c4b0;
+  color: #6b5a48;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .pd-comment-body {
@@ -279,7 +279,7 @@
 
 .pd-comment-username {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   color: #1a1a1a;
   text-decoration: none;
 }
@@ -295,7 +295,7 @@
 
 .pd-comment-text {
   font-size: 14px;
-  color: #3a3a3a;
+  color: #7a7068;
   margin: 0;
   line-height: 1.45;
 }
@@ -336,7 +336,7 @@
 .pd-comment-box {
   display: flex;
   gap: 8px;
-  padding-top: 4px;
+  padding-top: 8px;
 }
 
 .pd-comment-input {

@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 48px;
-  border-bottom: 1px solid #d8d0c6;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
   background: #f5f0eb;
 }
 
@@ -18,7 +18,7 @@
 .app-nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
 .app-nav-icon-btn {
@@ -55,7 +55,7 @@
 }
 
 .app-nav-btn {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   font-family: inherit;
   padding: 8px 18px;
@@ -99,5 +99,8 @@
 @media (max-width: 768px) {
   .app-nav {
     padding: 16px 24px;
+  }
+  .app-nav-actions {
+    gap: 12px;
   }
 }
