@@ -322,8 +322,14 @@ export default function Feed() {
             <p className="feed-status">Loading…</p>
           ) : activePosts.length === 0 ? (
             <div className="feed-empty">
-              <p>Nothing here yet. Be the first to rack something.</p>
-              <Link to="/post" className="feed-empty-link">Rack something new</Link>
+              {tab === 'explore' ? (
+                <p>No new posts to explore yet.</p>
+              ) : (
+                <>
+                  <p>Nothing here yet. Be the first to rack something.</p>
+                  <Link to="/post" className="feed-empty-link">Rack something new</Link>
+                </>
+              )}
             </div>
           ) : (
             <div className="feed-list">
