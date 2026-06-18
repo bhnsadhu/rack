@@ -66,7 +66,7 @@ export default function Store() {
 
       setStore(storeData);
 
-      const { data: postsData, error: postsError } = await supabase
+      const { data: postsData } = await supabase
         .from('racks')
         .select(`
           id, rating, created_at, user_id,

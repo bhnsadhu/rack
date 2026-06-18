@@ -29,7 +29,7 @@ export default function Profile() {
     setProfile(null);
 
     async function load() {
-      const { data: pd, error: pe } = await supabase
+      const { data: pd } = await supabase
         .from('profiles')
         .select('id, username, full_name, bio')
         .eq('username', username)
