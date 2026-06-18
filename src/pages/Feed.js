@@ -297,7 +297,10 @@ export default function Feed() {
       if (scoreB !== scoreA) return scoreB - scoreA;
       return new Date(b.created_at) - new Date(a.created_at);
     });
-  const activePosts = tab === 'explore' ? explorePosts : posts;
+  const followingPosts = posts
+    .filter((p) => followingIds.has(p.user_id))
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  const activePosts = tab === 'explore' ? explorePosts : followingPosts;
 
   return (
     <>
@@ -324,6 +327,8 @@ export default function Feed() {
             <div className="feed-empty">
               {tab === 'explore' ? (
                 <p>No new posts to explore yet.</p>
+              ) : followingIds.size === 0 ? (
+                <p>Follow people to see their posts here.</p>
               ) : (
                 <>
                   <p>Nothing here yet. Be the first to rack something.</p>
