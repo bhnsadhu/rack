@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import Store from './pages/Store';
 import Saved from './pages/Saved';
 import PostDetail from './pages/PostDetail';
+import Search from './pages/Search';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -29,6 +30,7 @@ root.render(
           <Route path="/store/:id" element={<Store />} />
           <Route path="/saved" element={<Saved />} />
           <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
