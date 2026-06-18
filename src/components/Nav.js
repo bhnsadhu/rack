@@ -13,7 +13,7 @@ export default function Nav() {
 
   return (
     <nav className="app-nav">
-      <Link to="/" className="app-nav-brand">RACK</Link>
+      <Link to="/feed" className="app-nav-brand">RACK</Link>
       <div className="app-nav-actions">
         {user ? (
           <>
