@@ -32,12 +32,10 @@ export default function Nav() {
               </svg>
             </Link>
             <Link to="/post" className="app-nav-btn app-nav-btn--fill">Rack it</Link>
-            {profile?.username ? (
-              <Link to={`/profile/${profile.username}`} className="app-nav-username">
-                {profile.full_name || profile.username}
+            {profile?.username && (
+              <Link to={`/profile/${profile.username}`} className="app-nav-avatar">
+                {(profile.full_name || profile.username || '?').charAt(0).toUpperCase()}
               </Link>
-            ) : (
-              <span className="app-nav-username">{profile?.full_name || profile?.username || user.email}</span>
             )}
           </>
         ) : (
