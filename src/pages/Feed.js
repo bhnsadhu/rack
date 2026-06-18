@@ -424,10 +424,10 @@ export default function Feed() {
                         <HeartIcon filled={isLiked} />
                         <span>{likeCount}</span>
                       </button>
-                      <Link to={`/post/${post.id}`} className="feed-action-btn">
+                      <button type="button" className="feed-action-btn" onClick={() => navigate(`/post/${post.id}`)}>
                         <CommentIcon />
                         <span>{commentCount}</span>
-                      </Link>
+                      </button>
                       <button type="button" className="feed-action-btn" onClick={() => handleShare(post.id)}>
                         <ShareIcon />
                         <span>{copiedId === post.id ? 'Copied!' : 'Share'}</span>
