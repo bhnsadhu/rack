@@ -135,6 +135,11 @@ export default function Profile() {
         ) : (
           <div className="profile-container">
             <div className="profile-header">
+              {profile.id === user.id && (
+                <button type="button" className="profile-signout-btn" onClick={handleSignOut}>
+                  Log out
+                </button>
+              )}
               <div className="profile-header-top">
                 <div className="profile-avatar">
                   {(profile.full_name || profile.username || '?').charAt(0).toUpperCase()}
@@ -152,7 +157,7 @@ export default function Profile() {
 
               {profile.bio && <p className="profile-bio">{profile.bio}</p>}
 
-              {profile.id !== user.id ? (
+              {profile.id !== user.id && (
                 <button
                   type="button"
                   className={`profile-follow-btn${isFollowing ? ' profile-follow-btn--following' : ''}`}
@@ -160,10 +165,6 @@ export default function Profile() {
                   disabled={followLoading}
                 >
                   {isFollowing ? 'Following' : 'Follow'}
-                </button>
-              ) : (
-                <button type="button" className="profile-signout-btn" onClick={handleSignOut}>
-                  Log out
                 </button>
               )}
             </div>
