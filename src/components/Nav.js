@@ -23,7 +23,6 @@ export default function Nav() {
                 <path d="M11.5 11.5L15 15" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
               </svg>
             </Link>
-            <Link to="/post" className="app-nav-btn app-nav-btn--fill">Rack it</Link>
             <Link to="/saved" className="app-nav-icon-btn" aria-label="Stash">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.3"/>
@@ -32,6 +31,7 @@ export default function Nav() {
                 <rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.3"/>
               </svg>
             </Link>
+            <Link to="/post" className="app-nav-btn app-nav-btn--fill">Rack it</Link>
             {profile?.username ? (
               <Link to={`/profile/${profile.username}`} className="app-nav-username">
                 {profile.full_name || profile.username}
